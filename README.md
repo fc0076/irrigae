@@ -147,4 +147,4 @@ L'ultima parte della HOME consente di avviare gli irrigatori di zona manualmente
 Attualmente irrigae è disponibile solo in lingua inglese.
 
 ## Animation
-![animation](examples/animation.png)
+![animated](examples/animated.gif)
