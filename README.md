@@ -139,8 +139,9 @@ Attenzione, se premendo sui pulsanti della pagina Home non si apre alcuna finest
   Questa è la sequenza di giorni in cui irrigare o non irrigare. Dimenticate le classiche configurazione a giorni della settimana. La natura non comprende i nostri giorni della settimana e deve essere irrigata con periodicità costante. Questo sistema vi consente di irrigare alternando i giorni di irrigazione a vostro piacere, con una combinazione massima di 8 giorni. </br>
   Per prima cosa dovrete scegliere di quanti giorni è la vostra sequenza, quindi per ogni giorno abilitare o disabilitare l'irrigazione.
    I giorni evidenziati sono quelli in cui il sistema farà partire l'irrigazione, nei giorni non evidenziati l'irrigazione non partirà. Fate un singolo click sul giorno per attivarlo/disattivarlo. </br>
-  Esempio1: Se volete irrigare a giorni alterni, selezionate 2 giorni di sequenza e abilitate il primo giorno e disabilitate il secondo giorno.</br>
-  Esempio2: Se volete irrigare tutti i giorni tranne la domenica selezionate 7 giorni di sequenza e abilitate i primi 6 giorni e l'ultimo no. (fate attenzione dovrete anche fare doppio click sul giorno della sequenza che corrisponde a oggi). </br>
+  Esempio1: Se volete irrigare tutti i giorni, selezionate 1 giorno di sequenza e abilitate quell'unico giorno.</br>
+  Esempio2: Se volete irrigare a giorni alterni, selezionate 2 giorni di sequenza e abilitate il primo giorno e disabilitate il secondo giorno.</br>
+  Esempio3: Se volete irrigare tutti i giorni tranne la domenica selezionate 7 giorni di sequenza e abilitate i primi 6 giorni e l'ultimo no. (fate attenzione dovrete anche fare doppio click sul giorno della sequenza che corrisponde a oggi). </br>
   Nell'esempio di figura invece è stato scelto di irrigare con la sequenza giorni Si-No-Si-Si-No. </br>
   Il giorno corrente è rappresentato dal riquadro verde. Il giorno corrente si sposta automaticamente a mezzanotte. Se volete cambiarlo manualmente fate doppio click. Si chiuderà la scheda, se la riaprite vedrete che il giorno corrente è stato aggiornato.</br>
   Importante. Quando il ciclo di irrigazione viene annullato per pioggia, il giorno corrente avanza ugualmente anche se l'irrigazione non è partita. Il giorno corrente quindi avanza indipendentemente da tutto alla mezzanotte di ogni giorno.
