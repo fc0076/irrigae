@@ -147,8 +147,63 @@ Lo stesso effetto si ottiene ovviamente anche disabilitando i cicli di irrigazio
 
 L'ultima parte della HOME consente di avviare gli irrigatori di zona manualmente per un tempo da voi scelto.
 
-## Funzioni avanzate
-(TODO)
+## Funzionalità avanzate
+Questa sezione è riservata a utenti in grado di creare sensori e script. Nella pagina CONFIG potrete aggiungere i seguenti sensori/script per variare il comportamento standard del sistema di irrigazione.
+
+- Sensore precipitazioni pioggia ore precedenti.
+Il sensore nativo di Irrigae si basa esclusivamente sulle previsioni pioggia delle ore precedenti. Non è quindi un vero sensore che misura la pioggia realmente caduta, in quanto fa affidamento esclusivamente alla bontà delle previsioni meteo precedenti. Se invece avete una stazione meteo, un sensore pioggia o un qualsiasi altro sensore di umidità terreno potrete creare il vostro sensore personale che indichi quanta pioggia è realmente caduta nelle ultime ore.
+Dovrete quindi creare un sensore che ritorni i millimetri di pioggia caduta e inserire il nome nel campo 'Rain Precipitation Sensor'. Il sistema di irrigazione escluderà quindi il suo sensore nativo e userà il vostro.
+  Esempio di sensore pioggia:
+
+  ```yaml
+  - template:
+      - sensor:
+          - name: Rain last 24 hours
+            unique_id: rain_last_24h
+            icon: mdi:weather-pouring
+            unit_of_measurement: "mm"
+            device_class: precipitation
+            state: > 
+              {% if has_value('sensor.station_daily_rain_rate') %}
+                 {{states('sensor.station_daily_rain_rate')|float}}
+              {% else %}
+                {{0.0}}
+              {% endif %}
+  ```
+
+- Sensore previsioni pioggia prossime ore.
+Potrete sostituire il sensore navito di Irrigae che calcola le previsioni di pioggia nelle prossime ore. Una volta creato il vostro sensore che ritorni i millimetri di pioggia che cadranno nelle prossime ore potrete inserirne il nome nel campo 'Rain Forecasts Sensor'. Il sistema di irrigazione escluderà quindi il suo sensore nativo e userà il vostro.
+
+  Esempio di sensore previsioni pioggia per le successive 24h aggiornato ogni ora:
+
+  ```yaml
+  - template:
+     - trigger:
+       - platform: time_pattern
+         hours: /1
+     action:
+       - service: weather.get_forecasts
+         data:
+           type: hourly
+         target:
+           entity_id: weather.my_home
+         response_variable: weather_hourly
+     sensor:
+       - name: Rain next 24h
+         unique_id: rain_next_24h
+         icon: hass:weather-rainy
+         unit_of_measurement: "mm"
+         device_class: precipitation
+         state: > 
+           {% set var = namespace(total=0) %}
+           {% for forecast in weather_hourly['weather.my_home'].forecast %}
+           {% if loop.index <= 24 %}
+           {% set var.total = var.total + forecast.precipitation %}
+           {% endif %} 
+           {% endfor %}
+           {{ var.total | float | round(2, 'floor')}}  
+  ```
+  
 
 ## Multilanguage
 Attualmente irrigae è disponibile solo in lingua inglese.
