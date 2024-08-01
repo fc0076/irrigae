@@ -235,6 +235,44 @@ Un altro modo per controllare i tempi di irrigazione è utilizzare i sensori del
               {%endif%}
    ```
 
+- Script di notifica attività di irrigazione
+  Irrigae mette a disposizione un sistema nativo di notifica. Potete aggiungere uno script personale per notifiche più complesse e inserirlo nel campo "Notification custom script".
+  Lo script che create dovrà avere come field di input i seguenti campi:
+  -> title: titolo nel messaggio
+  -> message: Corpo del messaggio
+  -> type: Tipo della notifica
+
+ Esempio di notifica con alexa 
+```yaml
+notify_irrigation_activity:
+  alias: Notify Irrigation activity
+  fields:
+    title:
+      required: false
+      description: Title 
+    message:
+      required: true
+      description: Message to notify
+      selector:
+        text:
+          multiline: true
+    type:
+      required: true
+      description: Type of notification
+  sequence:
+      - service: notify.alexa_media
+        data:
+          message: '{{message}}'
+          target: media_player.echo_sala, media_player.echo_studio
+          data:
+            type: tts
+            method: spoken
+  mode: queued
+  icon: mdi:bullhorn-variant-outline
+  max: 5
+
+```
+
 ## Multilanguage
 Attualmente irrigae è disponibile solo in lingua inglese.
 
