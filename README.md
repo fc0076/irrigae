@@ -110,7 +110,9 @@ Selezionando la tab "CONTROL" potrete ora attivare e disattivare le varie funzio
   Limite alto: 6mm
   Se le previsioni pioggia fossero di 4 millimetri, l'irrigazione sarebbe ridotta al 50% per ogni singola zona. Se le previsioni piogga fossero di 1mm l'irrigazione sarebbe normale. Se l'irrigazione fosse 7mm l'irrigazione sarebbe annullata.
   I valori sono da inserire sia per le precipitazioni precedenti, sia per le precipitazioni previste. Le rispettive riduzioni vengono moltiplicate.
-  Quindi il sistema tiene conto sia delle piogge cadute ieri che delle piogge previste oggi. 
+  Quindi il sistema tiene conto sia delle piogge cadute ieri che delle piogge previste oggi. </br>
+  Attenzione: Irrigae aggiorna il sensore di previone pioggia ogni ora. Se volete un aggiornamento instantantaneo disabilitate e abilitate il campo "Enable rain forecast reduction". Il sensore delle precipitazioni precedenti viene aggiornato costantemente, ma il suo valore sarà attendibile solo dopo 24 ore.
+  
 
 - Nelle sezioni 'Global irrigation percentage' e 'Zone irrigation percentage' vengono mostrate le reali percentuali di irrigazione che il sistema adotterà se l'irrigazione partisse in questo momento. Valori del 100% indicano che l'irrigazione sarà completa. Valori inferiori indicano che i minuti di irrigazione saranno ridotti della corripondente percentuale.
 La percentuale finale di irrigazione è Result (il dato più importante), ovvero il risultato delle due riduzioni per pioggia (precipitazioni precenti * precipitaizioni previste).
@@ -147,7 +149,7 @@ Lo stesso effetto si ottiene ovviamente anche disabilitando i cicli di irrigazio
 
 L'ultima parte della HOME consente di avviare gli irrigatori di zona manualmente per un tempo da voi scelto.
 
-## Funzionalità avanzate
+## Funzionalità avanzate (utenti esperti)
 Questa sezione è riservata a utenti in grado di creare sensori e script. Nella pagina CONFIG potrete aggiungere i seguenti sensori/script per variare il comportamento standard del sistema di irrigazione.
 
 - Sensore precipitazioni pioggia ore precedenti.
@@ -203,7 +205,35 @@ Potrete sostituire il sensore navito di Irrigae che calcola le previsioni di pio
            {% endfor %}
            {{ var.total | float | round(2, 'floor')}}  
   ```
-  
+- Sensori per il controllo dell'irrigazione delle zone
+Un altro modo per controllare i tempi di irrigazione è utilizzare i sensori delle zone. Questi sensori dovranno restituire una percentuale di irrigazione.
+100% significa che l'irrigazione sarà normale, valori inferiori o superiori ridurranno o aumenteranno i minuti di irrigazione. Questi sensori possono essere usati per vari scopi. Per esempio se avete dei sensori di umidità del terreno distribuiti nelle varie zone, potrete fare affidamento su questi per ridurre o aumentare il tempo di irrigazione. Potete usare lo stesso sensore su più zone. Un altro classico esempio può essere quello di ridurre l'irrigazione basandosi sulla quantità di acqua che avete nella cisterna. Se la cisterna non è piena potrete ridurre progressivamente i tempi di irrigazione per salvaguardare il consumo di acqua. Una volta creato il vostro sensore potrete inserire il nome nei campi dedicati alla correzione delle zone.
+
+ Esempio di sensore per ridurre l'irrigazione 
+  ```yaml
+  - template:
+     - sensor:
+          - name: reduce_irrigation
+            unique_id: reduce_irrigation
+            unit_of_measurement: '%'
+            icon: mdi:water-percent
+            state: > 
+              {% set sensor = 'sensor.tank_level' %}
+              {%if has_value(sensor) %}
+                {% set val = states(sensor) | float %}
+              {%else%}
+                {% set val = 0.0 %}
+              {%endif%}
+              {%if (val >= 80) %}
+                {{100}}
+              {%elif (val >= 60) %}
+                {{70}}
+              {%elif (val >= 40) %}
+                {{50}}
+              {%else%}
+                {{40}}
+              {%endif%}
+   ```
 
 ## Multilanguage
 Attualmente irrigae è disponibile solo in lingua inglese.
