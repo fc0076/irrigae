@@ -140,7 +140,7 @@ Attenzione, se premendo sui pulsanti della pagina Home non si apre alcuna finest
   Per prima cosa dovrete scegliere di quanti giorni è la vostra sequenza, quindi per ogni giorno abilitare o disabilitare l'irrigazione.
    I giorni evidenziati sono quelli in cui il sistema farà partire l'irrigazione, nei giorni non evidenziati l'irrigazione non partirà. Fate un singolo click sul giorno per attivarlo/disattivarlo. </br>
   Esempio1: Se volete irrigare a giorni alterni, selezionate 2 giorni di sequenza e abilitate il primo giorno e disabilitate il secondo giorno.</br>
-  Esempio2: Se volete irrigare tutti i giorni tranne la domenica selezionate 7 giorni di sequenza e abilitate i primi 6 giorni e l'ultimo no. (fate attenzione dovrete anche fare doppio click sul giorno della sequenza che corrisponde a oggi)
+  Esempio2: Se volete irrigare tutti i giorni tranne la domenica selezionate 7 giorni di sequenza e abilitate i primi 6 giorni e l'ultimo no. (fate attenzione dovrete anche fare doppio click sul giorno della sequenza che corrisponde a oggi). </br>
   Nell'esempio di figura invece è stato scelto di irrigare con la sequenza giorni Si-No-Si-Si-No. </br>
   Il giorno corrente è rappresentato dal riquadro verde. Il giorno corrente si sposta automaticamente a mezzanotte. Se volete cambiarlo manualmente fate doppio click. Si chiuderà la scheda, se la riaprite vedrete che il giorno corrente è stato aggiornato.</br>
   Importante. Quando il ciclo di irrigazione viene annullato per pioggia, il giorno corrente avanza ugualmente anche se l'irrigazione non è partita. Il giorno corrente quindi avanza indipendentemente da tutto alla mezzanotte di ogni giorno.
@@ -154,9 +154,9 @@ Lo stesso effetto si ottiene ovviamente anche disabilitando i cicli di irrigazio
 - Delay: </br>
   Questa funziona consente di ritardare l'irrigazione. Supponiamo che durante il ciclo di irrigazione dobbiate attraversare il giardino. Grazie alla funzione di delay potrete ritardare l'irrigazione per tutto il tempo che vi serve per uscire dalla zona di irrigazione. La funzione di delay funziona sia prima dell'avvio dell'irrigazione (nel qual caso il timer di ritardo parte esattamente all'ora prevista dal ciclo), sia mentre gli irrigatori stanno andando (nel qual caso l'irrigazione si blocca immediatamente e riprende dopo il tempo che gli avete indicato).
 - Manual cycle:</br>
-  Permette di avviare un ciclo manuale di tutte le zone con tempi da voi selezionati
+  Permette di avviare un ciclo manuale di tutte le zone con tempi da voi selezionati.
 - Stop irrigation:</br>
-  Arresta immediatamente qualsiasi tipo di irrigazione (manuale o automatica o zone)
+  Arresta immediatamente qualsiasi tipo di irrigazione (manuale o automatica o zone).
 
 L'ultima parte della HOME consente di avviare gli irrigatori di zona manualmente per un tempo da voi scelto.
 
