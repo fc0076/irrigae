@@ -78,7 +78,7 @@ Al termine dell'installazione riavviare Home Assistant. Dopo il riavvio nella Si
 Selezionando Irrigation dalla Sidebar entrerete nella Home dell'irrigazione. Tutte le etichette e gli stati saranno visualizzati come "Unknown". 
 E' normale, dovete ancora configurare il sistema. Per farlo selezionate la tab "CONFIG"
 
-![cycle_config](examples/config.png)
+![config](examples/config.png)
 
 - Scegliete quanti cicli di irrigazione automatica volete gestire (da 1 a 3), consiglio 3. 
 - Scegliete il numero di zone che il vostro sistema di irrigazione gestisce (da 1 a 6)
@@ -138,4 +138,11 @@ Lo stesso effetto si ottiene ovviamente anche disabilitando i cicli di irrigazio
 
 L'ultima parte della HOME consente di avviare gli irrigatori di zona manualmente per un tempo da voi scelto.
 
-![home](examples/zone.png)
+## Funzioni avanzate
+(TODO)
+
+## Multilanguage
+Attualmente irrigae è disponibile solo in lingua inglese.
+
+## Animation
+![animated](examples/animated.png)
