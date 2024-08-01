@@ -112,12 +112,17 @@ Selezionando la tab "CONTROL" potrete ora attivare e disattivare le varie funzio
   I valori sono da inserire sia per le precipitazioni precedenti, sia per le precipitazioni previste. Le rispettive riduzioni vengono moltiplicate.
   Quindi il sistema tiene conto sia delle piogge cadute ieri che delle piogge previste oggi. 
 
+- Nelle sezioni 'Global irrigation percentage' e 'Zone irrigation percentage' vengono mostrate le reali percentuali di irrigazione che il sistema adotterà se l'irrigazione partisse in questo momento. Valori del 100% indicano che l'irrigazione sarà completa. Valori inferiori indicano che i minuti di irrigazione saranno ridotti della corripondente percentuale.
+La percentuale finale di irrigazione è Result (il dato più importante), ovvero il risultato delle due riduzioni per pioggia (precipitazioni precenti * precipitaizioni previste).
+Anche le percentuali per zone sono soggette al valore di Result. Quindi se per esempio result è 30% e la percentuale zona1 è 100%, la zona1 verrà irrigata solo al 30%, cioè la moltiplicazione di result * zona1. Le correzioni per zona sono comunque dedicate ad utenti esperti, in grado cioè di creare i propri sensori per controllare il tempo di irrigazione. 
+ 
 ## Home irrigazione
-Terminate le due configurazioni precedenti siete pronti per provare il sistema di irrigazione. Selezionate quindi la pagina HOME e provate.
+Terminate le due configurazioni precedenti siete pronti per provare il sistema di irrigazione. Selezionate quindi la pagina HOME per cominciare i test di irrigazione.
 
 ![home](examples/home.png)
 
 Nella prima riga vengono visualizzati i cicli automatici che avete deciso di utilizzare (da 1 a 3). Premendo il pulsante entrerete in configurazione dei cicli.
+Attenzione, se premendo sui pulsanti della pagina Home non si apre alcuna finestra di popup avete problemi con l'add-on browser_mod. Verificate che sia correttamente installato e attivo. Consultate la relativa documentazione per la giusta configurazione di browser_mod. Ogni altro problema con la grafica della pagina Home è dovuto esclusivamente alla scorretta installazione degli add-on elencati nei prerequisiti. 
 
 ![cycle_config](examples/cycle_config.png)
 
@@ -128,7 +133,9 @@ Nella prima riga vengono visualizzati i cicli automatici che avete deciso di uti
 - Apply zone correction: Abilita la correzione dei tempi di irrigazione delle zone per altri sensori, come per esempio cisterne o sensori di umidità del terreno (utenti avanzati)
 - Irrigation days sequence: Potete scegliere una sequenza di giorni (fino a 8) in cui alternare i giorni di irrigazione. I giorni evidenziati sono quelli in cui il sistema farà partire l'irrigazione, i giorni non evidenziati l'irrigazione non partirà. Fare singolo click sul giorno per attivarlo/disattivarlo.
   Esempio: Se volete irrigare a giorni alterni, selezionate 2 giorni di sequenza e abilitate il primo giorno e disabilitate il secondo giorno.
+  Nell'esempio di figura invece è stato scelto di irrigare con la sequenza giorni Si-No-Si-Si-No. 
   Il giorno corrente è rappresentato dal riquadro verde. Il giorno corrente si sposta automaticamente a mezzanotte. Se volete cambiarlo manualmente fate doppio click. Si chiuderà la scheda, se la riaprite vedrete che il giorno corrente è stato aggiornato.
+  Importante. Quando il ciclo di irrigazione viene annullato per pioggia, il giorno corrente avanza ugualmente anche se l'irrigazione non è partita. Il giorno corrente quindi avanza indipendentemente da tutto alla mezzanotte di ogni giorno.
 - Minuti di irrigazione: per ogni zona del vostro impianto potrete decidere i minuti di irrigazione, se lasciate il valore a zero, quella zona non verrà irrigata.
 
 La parte sucessiva della HOME consente di controllare l'irrigazione.
