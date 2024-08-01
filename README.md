@@ -52,7 +52,7 @@ Scaricate e aggiungete le seguenti cartelle:
 - i files in irrigae_ui vanno scaricati e copiati in /config/www/irrigae_ui (create i percorsi se non esistono)
 
 ### configuration.yaml
-Nel file di configurazione principale di HomeAssistant (configuration.yaml) dovete aggiungere se non sono già presenti le seguenti configurazioni:
+Nel file di configurazione principale di HomeAssistant (configuration.yaml) dovete aggiungere, se non sono già presenti, le seguenti configurazioni:
 
 
 ```yaml
@@ -83,24 +83,24 @@ E' normale, dovete ancora configurare il sistema. Per farlo selezionate la tab "
 ![config](examples/config.png)
 
 - Scegliete quanti cicli di irrigazione automatica volete gestire (da 1 a 3), consiglio 3. 
-- Scegliete il numero di zone che il vostro sistema di irrigazione gestisce (da 1 a 6)
-- Inserite per ogni zona il nome dell'entità di tipo switch che controlla la valvola
-- Se volete che il vostro sistema consideri le previsioni di pioggia aggiungete l'entità weather della vostra zona geografica
+- Scegliete il numero di zone che il vostro sistema di irrigazione gestisce (da 1 a 6).
+- Inserite per ogni zona il nome dell'entità di tipo switch che controlla la valvola.
+- Se volete che il vostro sistema consideri le previsioni di pioggia aggiungete l'entità weather della vostra zona geografica.
 - Inserite quindi il numero di ore che volete tenere in considerazione per le previsioni di pioggia e per le piogge precedenti. 
   Dai test risulta che 15h e 18h siano valori ottimali, ma devono tener conto della zona in cui vivete e del tempo di evaporazione.
 - Se volete essere avvisati sulle attività del sistema di irrigazione, inserite quindi il servizio di notifica per il vostro cellulare/alexa,ecc.
-- E possibile quindi inserire anche il tempo di preavviso con cui volete ricevere la notifica prima dell'avvio di un'irrigazione automatica. 
+- E' possibile quindi inserire anche il tempo di preavviso con cui volete ricevere la notifica prima dell'avvio di un'irrigazione automatica. 
   Questo vi consente per esempio di avere il tempo per bloccarla o spostare eventuali oggetti che non devono essere bagnati. Un valore di 30 per esempio invierà la notifica 30 secondi prima dell'avvio effettivo dell'irrigazione.
 
 I parametri non presenti in questo elenco sono per utenti esperti, in grado di creare sensori e script. Vedere sezione apposita.
 
-## Attivazione sitema e controllo 
-Selezionando la tab "CONTROL" potrete ora attivare e disattivare le farie funzionalità del sistema di irrigazione
+## Attivazione sistema e controllo 
+Selezionando la tab "CONTROL" potrete ora attivare e disattivare le varie funzionalità del sistema di irrigazione.
 
 ![cycle_config](examples/control.png)
 
 - Abilitare il sistema. Con il sistema disabilitato, nessuna zona di irrigazione funzionerà. La disattivazione del sistema serve (per esempio) quando si chiude l'acqua durante l'inverno e permette di evitare avvi involontari dell'irrigazione che potrebbero danneggiare l'impianto.
-- Selezionare il tipo di notifiche che si desidera ricevere. Al momento della scrittura di questo documento non c'è molta differenza, selezionare ALL per ricevere tutte le notifiche o No, per non ricevere nulla
+- Selezionare il tipo di notifiche che si desidera ricevere. Al momento della scrittura di questo documento non c'è molta differenza, selezionare ALL per ricevere tutte le notifiche o No, per non ricevere nulla.
 - Abilitare i sistemi di riduzione dell'irrigazione per previsioni pioggia o per precipitazioni precedenti a seconda delle proprie necessità.
 - In caso di utilizzo della riduzione irrigazione per pioggia configurare i valori Reduce Irrigation e Stop Irrigation sia per precedenti precipitazioni che per precipitazioni previste. I valori 2mm e 5mm danno buoni risultati. 
   Il comportamento dei due campi è il seguente:
@@ -129,12 +129,12 @@ Nella prima riga vengono visualizzati i cicli automatici che avete deciso di uti
 - Irrigation days sequence: Potete scegliere una sequenza di giorni (fino a 8) in cui alternare i giorni di irrigazione. I giorni evidenziati sono quelli in cui il sistema farà partire l'irrigazione, i giorni non evidenziati l'irrigazione non partirà. Fare singolo click sul giorno per attivarlo/disattivarlo.
   Esempio: Se volete irrigare a giorni alterni, selezionate 2 giorni di sequenza e abilitate il primo giorno e disabilitate il secondo giorno.
   Il giorno corrente è rappresentato dal riquadro verde. Il giorno corrente si sposta automaticamente a mezzanotte. Se volete cambiarlo manualmente fate doppio click. Si chiuderà la scheda, se la riaprite vedrete che il giorno corrente è stato aggiornato.
-  - Minuti di irrigazione: per ogni zona del vostro impianto potrete decidere i minuti di irrigazione, se lasciate il valore a zero, quella zona non verrà irrigata.
+- Minuti di irrigazione: per ogni zona del vostro impianto potrete decidere i minuti di irrigazione, se lasciate il valore a zero, quella zona non verrà irrigata.
 
 La parte sucessiva della HOME consente di controllare l'irrigazione.
 - Suspend: Consente di sospendere l'irrigazione automatica per un po' di giorni (tutti i cicli). Se per esempio dalle vostre osservazioni notate che il terreno è già troppo bagnato potete sospendere l'irrigazione per tot giorni.
 Lo stesso effetto si ottiene ovviamente anche disabilitando i cicli di irrigazione, ma il vantaggio della sospensione sta nel fatto che non dovrete ricordarvi di riattivarli, infatti con la sospensione al termine del  periodo di stop, l'irrigazione torna a funzionare autonomamente.
-- Delay: Questa funziona consente di ritardare l'irrigazione. Supponiamo che durante il ciclo di irrigazione dobbiate attraversare il giardino. Grazie alla funzione di delay potrete ritardare l'irrigazione per tutto il tempo che vi serve per uscire dalla zona di irrigazione. La funzione di delay funziona sia prima dell'avvio dell'irrigazione (nel qual caso il timer di ritardo parte esattamente all'ora prevista dal ciclo), sia mentre gli irrigatori stanno andando (nel qual caso l'irrigazione si blocca immediatamente e riprende dopo il tempo che gli avete indicato)   
+- Delay: Questa funziona consente di ritardare l'irrigazione. Supponiamo che durante il ciclo di irrigazione dobbiate attraversare il giardino. Grazie alla funzione di delay potrete ritardare l'irrigazione per tutto il tempo che vi serve per uscire dalla zona di irrigazione. La funzione di delay funziona sia prima dell'avvio dell'irrigazione (nel qual caso il timer di ritardo parte esattamente all'ora prevista dal ciclo), sia mentre gli irrigatori stanno andando (nel qual caso l'irrigazione si blocca immediatamente e riprende dopo il tempo che gli avete indicato).
 - Manual cycle: Permette di avviare un ciclo manuale di tutte le zone con tempi da voi selezionati
 - Stop irrigation: Arresta immediatamente qualsiasi tipo di irrigazione (manuale o automatica o zone)
 
