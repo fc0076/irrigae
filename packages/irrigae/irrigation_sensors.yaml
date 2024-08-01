@@ -340,16 +340,18 @@ sql:
         {%if parts|count==2%}
           {%set oras = parts[0].split(',')%}
           {%set values = parts[1].split(',')%}
-          {% set hours=iif(has_value("input_number.irrigae_native_past_precipitation_hours"), states("input_number.irrigae_native_past_precipitation_hours"),24) | int %}
-          {%set refOra =  (now()-timedelta(hours=hours)).strftime('%d%H%M') |int%}
-          {%set var = namespace(found=false, value=values[values|count-1]) %}
-          {%for idx in range(oras|count) if not var.found %}
-            {%-if oras[idx]|int <= refOra %}
-              {% set var.found=true%}
-              {% set var.value=values[idx]%}
+          {%set hours=iif(has_value("input_number.irrigae_native_past_precipitation_hours"), states("input_number.irrigae_native_past_precipitation_hours"),24) | int %}
+          {%set refOra =  (now()-timedelta(hours=hours)).strftime('%d%H%M')%}
+          {%-set var = namespace(found=false, value=values[values|count-1]) %}
+          {%-for idx in range(oras|count) if not var.found %}
+            {%-if oras[idx][:2] != '01' or refOra[:2]<='02' %}
+              {%-if oras[idx]|int <= refOra|int %}
+                {%- set var.found=true%}
+                {%- set var.value=values[idx]%}
+              {%-endif%}
             {%-endif%}
-          {%endfor%}
-          {{var.value | float}}
-        {%else%}
+          {%-endfor%}
+          {{-var.value | float}}
+        {%-else%}
           0.0
-        {%endif%}
+        {%-endif%}
