@@ -1,0 +1,185 @@
+
+input_boolean:
+
+  #-----------------------------
+  # Irrigation enabled
+  #-----------------------------
+  irrigae_irrigation_enabled:
+    name: Irrigation enabled
+    icon: mdi:watering-can
+    
+    
+input_number:
+  #-----------------------------------------------------
+  # Number of programmable cycles to manage (max:3)
+  #-----------------------------------------------------
+  irrigae_number_cycles:
+    name: Number of programmable cycles
+    icon: mdi:format-list-numbered
+    min: 1
+    max: 3
+  
+  #-----------------------------------------------------
+  # Number of irrigation zones you have (max:6)
+  #-----------------------------------------------------
+  irrigae_number_zones:
+    name: Number of irrigation zones
+    icon: mdi:format-list-numbered
+    min: 1
+    max: 6
+    
+  #-----------------------------------------------------
+  # Seconds to wait before start irrigation
+  #-----------------------------------------------------     
+  irrigae_seconds_notice: 
+    name: Seconds to wait before start irrigation
+    min: 0
+    max: 300
+    unit_of_measurement: sec
+    mode: box 
+    
+  #--------------------------------------------------------------
+  # Rain precipitation sensor value to start reducing irrigation 
+  #-------------------------------------------------------------- 
+  irrigae_rain_precipitation_reduce_irrigation: 
+    name: Rain value to start reducing irrigation
+    icon: mdi:arrow-down-bold-box
+    min: 0.1
+    max: 100
+    unit_of_measurement: mm
+    mode: box 
+    
+  #-----------------------------------------------------
+  # Rain precipitation sensor value to stop irrigation 
+  #-----------------------------------------------------     
+  irrigae_rain_precipitation_stop_irrigation:
+    name: Rain value to stop irrigation
+    icon: mdi:stop
+    min: 0.1
+    max: 100
+    unit_of_measurement: mm
+    mode: box 
+    
+  #--------------------------------------------------------------
+  # Rain forecasts sensor value to start reducing irrigation 
+  #-------------------------------------------------------------- 
+  irrigae_rain_forecasts_reduce_irrigation: 
+    name: Rain forecast value to start reducing irrigation
+    icon: mdi:arrow-down-bold-box
+    min: 0.1
+    max: 100
+    unit_of_measurement: mm
+    mode: box 
+    
+  #-----------------------------------------------------
+  # Rain forecasts sensor value to stop irrigation 
+  #-----------------------------------------------------     
+  irrigae_rain_forecasts_stop_irrigation:
+    name: Rain forecast value to stop irrigation
+    icon: mdi:stop
+    min: 0.1
+    max: 100
+    unit_of_measurement: mm
+    mode: box 
+    
+  #-----------------------------------------------------
+  # Native forecasts hours to consider
+  #-----------------------------------------------------     
+  irrigae_native_weather_forecasts_hours:
+    name: Native weather forecasts hours
+    icon: mdi:hours-24
+    min: 1
+    max: 24
+    unit_of_measurement: h
+    mode: box 
+    
+  #-----------------------------------------------------
+  # Native past precipitation hours to consider
+  #-----------------------------------------------------     
+  irrigae_native_past_precipitation_hours:
+    name: Native past precipitation hours
+    icon: mdi:hours-24
+    min: 1
+    max: 24
+    unit_of_measurement: h
+    mode: box 
+
+input_text:
+  #-------------------------------------------------------
+  # Name of the entities (switches) of the valves
+  #-------------------------------------------------------
+  irrigae_valve_entity_zone1:
+    name: "Zone 1 valve switch"
+  irrigae_valve_entity_zone2:
+    name: "Zone 2 valve switch"
+  irrigae_valve_entity_zone3:
+    name: "Zone 3 valve switch"
+  irrigae_valve_entity_zone4:
+    name: "Zone 4 valve switch"
+  irrigae_valve_entity_zone5:
+    name: "Zone 5 valve switch"
+  irrigae_valve_entity_zone6:
+    name: "Zone 6 valve switch"  
+    
+  #-------------------------------------------------------
+  # Name of the entities for zones correction
+  #-------------------------------------------------------
+  irrigae_corrector_entity_zone1:
+    name: "Corrector entity zone 1"
+  irrigae_corrector_entity_zone2:
+    name: "Corrector entity zone 2"
+  irrigae_corrector_entity_zone3:
+    name: "Corrector entity zone 3"
+  irrigae_corrector_entity_zone4:
+    name: "Corrector entity zone 4"
+  irrigae_corrector_entity_zone5:
+    name: "Corrector entity zone 5"
+  irrigae_corrector_entity_zone6:
+    name: "Corrector entity zone 6"
+    
+  #--------------------------------------------------------------------------------------
+  # Name of the custom notification script (script input field are: title, message, type)
+  #--------------------------------------------------------------------------------------
+  irrigae_custom_notification_script:
+    name: "Custom notification script"
+ 
+  #--------------------------------------------------------------------------------------
+  # Service for notification messages (service-data are: title, message)
+  #--------------------------------------------------------------------------------------
+  irrigae_notification_service:
+    name: "Notification service"
+    
+  #--------------------------------------------------------------------------------------
+  # Entity name for the native rain sensor
+  #--------------------------------------------------------------------------------------
+  irrigae_native_weather_entity:
+    name: "Native weather entity"
+ 
+  #--------------------------------------------------------------------------------------
+  # Entity name of a rain sensor (mm)
+  #--------------------------------------------------------------------------------------
+  irrigae_custom_rain_precipitation_sensor:
+    name: "Custom rain precipitaion sensor"
+ 
+  #--------------------------------------------------------------------------------------
+  # Entity name of a rain forecasts sensor (mm)
+  #--------------------------------------------------------------------------------------
+  irrigae_cutoms_rain_forecasts_sensor:
+    name: "Custom rain forecasts sensor"
+
+ 
+#====================
+#=== Input select
+#====================
+input_select:
+
+  #--------------------------------
+  # Enable notification messages
+  #--------------------------------
+  irrigae_enabled_notifications:
+    name: "Enabled notifications"
+    options:
+      - 'No'
+      - Feedback
+      - Report
+      - All

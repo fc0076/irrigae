@@ -1,0 +1,239 @@
+# lovelace_gen
+
+##################################################
+#                                                #
+#            IRRIGATION CONTROL                  #
+#                                                #
+##################################################
+
+{% set gapSize = "1vh" %}
+
+# Cycles names
+{% set cycles  = ['cycle1', 'cycle2', 'cycle3'] %}
+    
+type: vertical-stack
+cards:
+
+ # -------------------------------------------------------------------------------
+ # I R R I G A T I O N    P R O G R A M S
+ # -------------------------------------------------------------------------------
+
+  - type: custom:button-card
+    template: separator
+    styles:
+      card:
+        - height: {{ gapSize }}
+ 
+  - type: custom:button-card
+    template: 
+      - label
+    label: 'Automatic irrigation'
+  
+   # --- CYCLE PROGRAMS ----------------------------------------------------------
+   
+  - type: horizontal-stack
+    cards:
+        
+      {% for cycle in cycles %}
+    
+      - type: conditional
+        conditions:
+          - condition: numeric_state
+            entity: input_number.irrigae_number_cycles
+            above: {{loop.index-1}}
+        card: 
+          type: custom:button-card
+          entity: automation.irrigae_start_{{cycle}}
+          template:
+            - state_button
+          icon: mdi:numeric-{{loop.index}}-box-outline
+          custom_fields:
+            day: >
+              [[[ if (entity.state === 'off')
+                    return '';
+                  return states['sensor.irrigae_next_irrigation_{{cycle}}'].attributes.week_day; ]]]
+          label: >
+            [[[ return states['input_text.irrigae_name_{{cycle}}'].state]]]
+          state_display: > 
+            [[[ if (entity.state === 'off')
+                  return 'Off';
+                return (states['input_datetime.irrigae_start_time_{{cycle}}'].state).substr(0,5) ]]]
+          styles:
+            grid:
+              - grid-template-areas: '"l l" "i day" "i s"'
+              - grid-template-columns: 1.8fr 3.5fr
+              - grid-template-rows: min-content auto auto
+            card:
+              - background-color: > 
+                  [[[ if (states['input_text.irrigae_cycle_in_progress'].state === '{{cycle}}')
+                        return "green";
+                     return "";
+                  ]]] 
+            icon:
+              - color:  >
+                  [[[ if (entity.state === 'off')
+                        return "var(--state-icon-color)";
+                  return "";
+                  ]]]
+            state:
+              - padding-left: 0px
+              - font-size: 90%
+              - justify-self: start
+              - align-self: start
+            custom_fields:
+              day:
+                - padding-left: 0px
+                - font-size: 90%
+                - justify-self: start
+                - align-self: end
+          tap_action: 
+            !include
+            - irrigation_cycle_popup.yaml
+            - cycle: {{cycle}}
+              
+        
+       {%endfor%}
+      
+ # -------------------------------------------------------------------------------
+ # I R R I G A T I O N   C O N T R O L 
+ # -------------------------------------------------------------------------------
+
+  - type: custom:button-card
+    template: separator
+    styles:
+      card:
+        - height: {{ gapSize }}
+  
+  - type: custom:button-card
+    template: 
+      - label
+    label: 'Irrigation control'
+    
+  - type: grid
+    square: false
+    columns: 2
+    cards:
+     
+      # --- FREEZE IRRIGATION ----------------------------------------------------------
+      - type: custom:button-card
+        entity: timer.irrigae_freeze_irrigation
+        template:
+          - timer_button
+        variables:
+          states:
+            active:
+              label: 'Suspended for'
+            idle:
+              label: 'Suspend'
+        icon: 'mdi:water-off'
+        tap_action: 
+          !include irrigation_freeze_popup.yaml
+      
+      # --- DELAY IRRIGATION -----------------------------------------------------------
+      - type: custom:button-card
+        entity: timer.irrigae_delay_irrigation
+        template:
+          - timer_button
+        variables:
+          states:
+            active:
+              label: 'Starts in'
+              icon: mdi:timer
+            idle:
+              label: 'Delay'
+              icon: mdi:timer-outline
+        tap_action: 
+          !include irrigation_delay_popup.yaml
+      
+      # --- MANUAL IRRIGATION CYCLE ----------------------------------------------------
+      - type: custom:button-card
+        entity: script.irrigae_start_manual_cycle
+        icon: mdi:play
+        label: 'Manual cycle'
+        template:
+          - push_button
+        styles:
+          card:
+            - font-size: 90%
+        tap_action: 
+          !include irrigation_cycle_manual_popup.yaml
+        lock:  
+          enabled: '[[[ return (states["input_text.irrigae_zone_in_progress"].state !== ""); ]]]'
+          exemptions: []
+          duration: 0
+      
+      # --- STOP ANY IRRIGATION ----------------------------------------------------------
+      - type: custom:button-card
+        entity: script.irrigae_start_irrigation_zone
+        label: 'Stop irrigation'
+        template:
+          - on_off_button
+        variables:
+          icon: mdi:stop
+          onBackColor: green
+          onColor: white
+        styles:
+          card:
+            - font-size: 90%
+        tap_action:
+          action: call-service
+          service: script.irrigae_stop_irrigation
+      
+
+  # -------------------------------------------------------------------------------
+  # IRRIGATION ZONES
+  # -------------------------------------------------------------------------------
+  
+  - type: custom:button-card
+    template: separator
+    styles:
+      card:
+        - height: {{ gapSize }}
+        
+  - type: custom:button-card
+    template: 
+      - label
+    label: 'Irrigation zones'
+  
+  # --- IRRIGATION ZONES CONTROL --------------------------------------------------
+  
+  - type: grid
+    square: false
+    columns: 3
+    cards:
+      {% for zone in [1,2,3,4,5,6] %}
+      - type: conditional
+        conditions:
+          - condition: numeric_state
+            entity: input_number.irrigae_number_zones
+            above: {{zone-1}}
+        card: 
+          type: custom:button-card
+          entity: 'timer.irrigae_timer_zone{{zone}}'
+          icon: mdi:numeric-{{zone}}-circle
+          label: >    
+            [[[  
+              var value = states['input_text.irrigae_valve_entity_zone{{zone}}'].state;
+              if (!states[value])
+                return "-no entity-";
+              return states[value].attributes.friendly_name;
+            ]]]
+          template:
+            - timer_button
+          tap_action: 
+            !include
+            - irrigation_zone_popup.yaml
+            - zone: 'zone{{zone}}'
+          lock:  
+            enabled: '[[[ return (states["input_text.irrigae_zone_in_progress"].state !== ""); ]]]'
+            duration: 0
+            exemptions: []
+    
+      {%endfor%}
+   
+       
+   
+                  
+        
+       
+        

@@ -1,0 +1,14 @@
+# lovelace_gen
+
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: >
+      [[[ return "Cycle " + states["input_text.irrigae_name_{{cycle}}"].state; ]]]
+    browser_id: THIS
+    content:
+      !include
+        - irrigation_cycle_config.yaml
+        - cycle: {{cycle}}
+        

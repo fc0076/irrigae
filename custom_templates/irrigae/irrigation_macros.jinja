@@ -1,0 +1,37 @@
+
+{% macro week_day(date) %}
+   {%if date is string%}
+     unknown
+   {%else%}
+    {%set diff= date.day - now().day%}
+     {%if diff==0%}
+       Today
+     {%elif diff==1%}
+       Tomorrow
+     {%elif diff==-1%}
+       Yesterday
+     {%elif diff|abs<6%}
+       {{date.strftime("%A")}}
+     {%else%}
+       {{date.strftime("%a")+date.strftime(" %d %b")}}
+     {%endif%}
+   {%endif%}
+{% endmacro %}
+
+{% macro next_irrigation_day(cycle) %}
+  {% set numDays=states('input_number.irrigae_number_days_'+cycle) | int %}
+  {% set currentDay= states('input_number.irrigae_current_day_'+cycle) | int %}
+  {% set start = today_at(states('input_datetime.irrigae_start_time_'+cycle))%}
+  {% set var = namespace(found='')%}
+  {% for idx in range(0, numDays + 1)%}
+  {% set day= currentDay + idx%}
+  {% if day> numDays %}
+     {%set day = day-numDays%}
+  {%endif%}
+  {% set next = start+ timedelta(days=idx) %}
+  {% if states('input_text.irrigae_days_sequence_'+cycle)[day-1] == 'Y' and next>now() and var.found == ''%}
+     {% set var.found=next %}
+  {% endif %}
+  {% endfor %}
+  {{var.found}}
+{% endmacro %}

@@ -1,0 +1,31 @@
+# lovelace_gen
+
+# --------------------------------------------------------------------
+# DASHBOARD VIEWS
+# --------------------------------------------------------------------
+
+- type: masonry
+  badges: []
+  title: Home
+  path: irrigation_home
+  cards:
+    - type: vertical-stack
+      cards:
+        - type: picture
+          image: local\irrigae_ui\irrigae.png      
+        - !include irrigation_home.yaml
+
+
+- type: masonry
+  title: Control
+  path: irrigation_control
+  cards:
+   !include irrigation_control.yaml
+    
+- type: masonry
+  title: Config
+  path: irrigation_config
+  cards:
+    !include irrigation_config.yaml
+
+

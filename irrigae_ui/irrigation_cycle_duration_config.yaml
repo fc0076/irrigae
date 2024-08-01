@@ -1,0 +1,25 @@
+# lovelace_gen
+
+type: vertical-stack
+cards:
+
+  {% for zone in [1,2,3,4,5,6] %}
+  - type: conditional
+    conditions:
+      - condition: numeric_state
+        entity: input_number.irrigae_number_zones
+        above: {{zone-1}}
+    card:
+      type: custom:config-template-card
+      variables:
+        - states['input_text.irrigae_valve_entity_zone{{zone}}'].state
+      entities:
+        - input_number.irrigae_duration_{{cycle}}_zone{{zone}}
+      card:
+        type: entities
+        entities:
+          - entity: input_number.irrigae_duration_{{cycle}}_zone{{zone}}
+            name: "${states[vars[0]].attributes.friendly_name }"
+
+    {% endfor %}
+

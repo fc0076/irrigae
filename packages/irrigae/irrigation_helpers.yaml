@@ -1,0 +1,428 @@
+
+#==================
+#=== Input Numbers
+#==================
+input_number:
+
+  #-----------------------------
+  # Days in a cycle 
+  #-----------------------------
+  
+  irrigae_number_days_cycle1:
+    name: Number days cycle 1
+    min: 1
+    max: 8
+    icon: mdi:calendar-today
+    
+  irrigae_number_days_cycle2:
+    name: Number days cycle 2
+    min: 1
+    max: 8
+    icon: mdi:calendar-today
+    
+  irrigae_number_days_cycle3:
+    name: Number days cycle 3
+    min: 1
+    max: 8
+    icon: mdi:calendar-today
+  
+  #-----------------------------
+  # Cycle day counters
+  #-----------------------------
+   
+  irrigae_current_day_cycle1:
+    name: Current day cycle 1
+    min: 1
+    max: 8
+    initial: 1
+    icon: mdi:calendar-today
+    
+  irrigae_current_day_cycle2:
+    name: Current day cycle 2
+    min: 1
+    max: 8
+    initial: 1
+    icon: mdi:calendar-today
+    
+  irrigae_current_day_cycle3:
+    name: Current day cycle 3
+    min: 1
+    max: 8
+    initial: 1
+    icon: mdi:calendar-today
+
+  #-----------------------------
+  # Cycle1 durations
+  #-----------------------------
+  irrigae_duration_cycle1_zone1: 
+    name: Cycle duration 1 zone 1
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+  irrigae_duration_cycle1_zone2: 
+    name: Cycle duration 1 zone 2
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+  irrigae_duration_cycle1_zone3: 
+    name: Cycle duration 1 zone 3
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+  irrigae_duration_cycle1_zone4: 
+    name: Cycle duration 1 zone 4
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+  irrigae_duration_cycle1_zone5: 
+    name: Cycle duration 1 zone 5
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+  irrigae_duration_cycle1_zone6: 
+    name: Cycle duration 1 zone 6
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+    
+  #-----------------------------
+  # Cycle2 durations
+  #-----------------------------
+  irrigae_duration_cycle2_zone1: 
+    name: Cycle duration 2 zone 1
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+  irrigae_duration_cycle2_zone2: 
+    name: Cycle duration 2 zone 2
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+  irrigae_duration_cycle2_zone3: 
+    name: Cycle duration 2 zone 3
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+  irrigae_duration_cycle2_zone4: 
+    name: Cycle duration 2 zone 4
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+  irrigae_duration_cycle2_zone5: 
+    name: Cycle duration 2 zone 5
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+  irrigae_duration_cycle2_zone6: 
+    name: Cycle duration 2 zone 6
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+    
+  #-----------------------------
+  # Cycle3 durations
+  #-----------------------------
+  irrigae_duration_cycle3_zone1: 
+    name: Cycle duration 3 zone 1
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+  irrigae_duration_cycle3_zone2: 
+    name: Cycle duration 3 zone 2
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+  irrigae_duration_cycle3_zone3: 
+    name: Cycle duration 3 zone 3
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+  irrigae_duration_cycle3_zone4: 
+    name: Cycle duration 3 zone 4
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+  irrigae_duration_cycle3_zone5: 
+    name: Cycle duration 3 zone 5
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+  irrigae_duration_cycle3_zone6: 
+    name: Cycle duration 3 zone 6
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+    
+  #-----------------------------
+  # Manual cycle durations
+  #-----------------------------
+  irrigae_duration_manual_zone1: 
+    name: Cycle duration manual zone 1
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+  irrigae_duration_manual_zone2: 
+    name: Cycle duration manual zone 2
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+  irrigae_duration_manual_zone3: 
+    name: Cycle duration manual zone 3
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+  irrigae_duration_manual_zone4: 
+    name: Cycle duration manual zone 4
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+  irrigae_duration_manual_zone5: 
+    name: Cycle duration manual zone 5
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+  irrigae_duration_manual_zone6: 
+    name: Cycle duration manual zone 6
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+    
+      
+#====================
+#=== Timers
+#====================
+timer:
+   
+  #-----------------------------
+  # Zone timers
+  #-----------------------------
+ 
+  irrigae_timer_zone1:
+    name: 'Sprinkler timer zone 1'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+  
+  irrigae_timer_zone2:
+    name: 'Sprinkler timer zone 2'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  irrigae_timer_zone3:
+    name: 'Sprinkler timer zone 3'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  irrigae_timer_zone4:
+    name: 'Sprinkler timer zone 4'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  irrigae_timer_zone5:
+    name: 'Sprinkler timer zone 5'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  irrigae_timer_zone6:
+    name: 'Sprinkler timer zone 6'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  #-----------------------------
+  # Hold irrigation
+  #-----------------------------
+  irrigae_freeze_irrigation:
+    name: 'Freeze irrigation timer'
+    duration: "00:01:00"
+    icon: mdi:water-off
+
+  #-----------------------------
+  # Delay irrigation
+  #-----------------------------
+  irrigae_delay_irrigation:
+    name: 'Delay irrigation timer'
+    duration: "00:01:00"
+    icon: mdi:timer
+
+#==================
+#=== Input Text
+#==================
+input_text:
+
+  #-----------------------------
+  # Cycle names
+  #-----------------------------
+ 
+  irrigae_name_cycle1:
+    name: "Cycle name 1"
+  
+  irrigae_name_cycle2:
+    name: "Cycle name 2"
+  
+  irrigae_name_cycle3:
+    name: "Cycle name 3" 
+    
+  #-----------------------------
+  # Cycle days sequence
+  #-----------------------------
+    
+  irrigae_days_sequence_cycle1:
+    name: "Days sequence cycle 1"
+  
+  irrigae_days_sequence_cycle2:
+    name: "Days sequence cycle 2"
+    
+  irrigae_days_sequence_cycle3:
+    name: "Days sequence cycle 3"
+    
+  #-----------------------------
+  # Last activity
+  #-----------------------------
+    
+  irrigae_last_activity:
+    name: "Last activity"
+ 
+    
+  #-----------------------------
+  # Active irrigation entities
+  #-----------------------------
+  irrigae_active_sprinkler:
+    name: 'Active sprinkler'
+    initial: ''
+    icon: mdi:sprinkler
+  
+  irrigae_cycle_in_progress:
+    name: 'Cycle in progress'
+    initial: ''
+    icon: mdi:sprinkler
+ 
+  irrigae_zone_in_progress:
+    name: 'Zone in progress'
+    initial: ''
+    icon: mdi:sprinkler
+    
+ 
+#====================
+#=== Input Datetimes
+#====================
+input_datetime:
+
+  #-----------------------------
+  # Cycles start time
+  #-----------------------------
+  irrigae_start_time_cycle1:
+    name: 'Start time cycle1'
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+    
+  irrigae_start_time_cycle2:
+    name: 'Start time cycle2'
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+    
+  irrigae_start_time_cycle3:
+    name: 'Start time cycle2'
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+    
+#====================
+#=== Input boolean
+#====================
+input_boolean:
+
+  #--------------------------------------
+  # Consider rain in cycles
+  #--------------------------------------
+  irrigae_consider_rain_cycle1:
+    name: Consider rain cycle1
+    icon: mdi:weather-rainy
+
+  irrigae_consider_rain_cycle2:
+    name: Consider rain cycle2
+    icon: mdi:weather-rainy
+
+  irrigae_consider_rain_cycle3:
+    name: Consider rain cycle3
+    icon: mdi:weather-rainy
+
+  #--------------------------------------
+  # Consider zone correctors in cycles
+  #--------------------------------------
+  irrigae_consider_zone_correctors_cycle1:
+    name: Consider zone correctors in cycle1
+    icon: mdi:numeric-1-box-multiple-outline
+
+  irrigae_consider_zone_correctors_cycle2:
+    name: Consider zone correctors in cycle2
+    icon: mdi:numeric-2-box-multiple-outline
+
+  irrigae_consider_zone_correctors_cycle3:
+    name: Consider zone correctors in cycle3
+    icon: mdi:numeric-3-box-multiple-outline
+
+
+  #--------------------------------------
+  # Enable rain corrections
+  #--------------------------------------
+  irrigae_enable_rain_forecasts_correction:
+    name: Enable forecasts correction
+    icon: mdi:weather-rainy
+
+  irrigae_enable_rain_precipitation_correction:
+    name: Enable rain precipitation correction
+    icon: mdi:weather-rainy
+    
+  irrigae_enable_zones_correction:
+    name: Enable zones correction
+    icon: mdi:numeric-1-box-multiple-outline
+

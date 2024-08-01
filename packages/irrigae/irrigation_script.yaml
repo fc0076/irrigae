@@ -1,0 +1,561 @@
+script:
+  irrigae_toggle_irrigation_day:
+    alias: Irrigae - Toggle irrigation day
+    mode: single
+    icon: mdi:calendar-today
+    fields:
+      cycle:
+        name: Cycle
+        required: true
+        description: Cycle name
+      day:
+        name: Day
+        required: true
+        description: Day of the sequence
+    variables: 
+      days_seq: >
+        {{ iif (states('input_text.irrigae_days_sequence_' ~ cycle) is match('[YN]{8}') , states('input_text.irrigae_days_sequence_' ~ cycle), 'NNNNNNNN', 'NNNNNNNN') }}
+    sequence:
+      - service: input_text.set_value
+        target:
+          entity_id: 'input_text.irrigae_days_sequence_{{cycle}}'
+        data:
+          value: >
+           {{ days_seq[0:day-1] + iif ((days_seq[day-1] == 'N'),'Y','N') + days_seq[day:]}}
+  
+  irrigae_increment_irrigation_day:
+    alias: Irrigae - Increment irrigation day
+    mode: single
+    icon: mdi:calendar-today
+    fields:
+      cycle:
+        name: Cycle
+        required: true
+        description: Cycle name
+    variables: 
+      new_day: >
+         {{ iif (states('input_number.irrigae_current_day_' ~ cycle)|int >= states('input_number.irrigae_number_days_' ~ cycle)|int  , 1, 
+                 states('input_number.irrigae_current_day_' ~ cycle)|int + 1, 1) }}
+    sequence:
+      - service: input_number.set_value
+        target:
+          entity_id: 'input_number.irrigae_current_day_{{cycle}}'
+        data:
+          value: '{{new_day}}'
+           
+  irrigae_start_manual_irrigation:
+    alias: Irrigae - Start manual irrigation
+    mode: single
+    icon: mdi:play
+    variables:
+      zones: >
+        {% set var = namespace(zones=[])%}
+        {% for idx in range(0,states('input_number.irrigae_number_zones') | int) %}
+        {%set min = states('input_number.irrigae_duration_manual_zone'~(idx+1)) | int %}
+        {%set var.zones = var.zones + [min]%}
+        {%endfor%}
+        {{var.zones}}
+      trace: >
+        {% set var = namespace(trace= 'Start manual cycle mins(') %}
+        {% for zone in zones %}
+            {% set var.trace = var.trace + iif(loop.index==1,'',',')%}
+            {% set var.trace = var.trace ~zone %}
+        {% endfor %}
+        {% set var.trace = var.trace + ')'%}
+        {{var.trace}}
+    sequence:
+  
+    - if:
+        - condition: template 
+          value_template: "{{not is_state('input_boolean.irrigae_irrigation_enabled', 'on')}}"
+      then:
+        - service: script.irrigae_notify
+          data:
+            type: REPORT
+            message: 'The manual cycle has not started because the Irrigation System is disabled'
+          
+    - condition: template
+      value_template: "{{is_state('input_boolean.irrigae_irrigation_enabled', 'on')}}"
+
+    - service: input_text.set_value
+      data:
+        value: 'manual'
+      target:
+        entity_id: input_text.irrigae_cycle_in_progress
+    
+    - service: script.irrigae_log_activity
+      data:
+        text: '{{trace}}'
+
+    #=== Run all the zones in turns
+    - repeat:
+        until:
+          - condition: template
+            value_template: >
+              {{ (states('input_number.irrigae_number_zones') | int == repeat.index) or is_state('input_text.irrigae_cycle_in_progress', '')}}
+        sequence:
+          - service: script.irrigae_start_irrigation_zone
+            data:
+              zone: 'zone{{repeat.index}}'
+              minutes: '{{zones[repeat.index-1]}}'
+
+
+            #=== Pause between zones (to allow for stabilization of the HA state machine and resetting of the physical valves)
+          - delay:
+              seconds: 3
+
+    - service: script.turn_on
+      target:
+        entity_id: script.irrigae_stop_irrigation
+    
+
+  irrigae_start_irrigation_cycle:
+    alias: Irrigae - Start irrigation cycle
+    mode: single
+    icon: mdi:play
+    fields:
+      cycle:
+        name: Cycle
+        required: true
+        description: Cycle name
+    variables:
+      percentage: >
+        {{ iif (is_state('input_boolean.irrigae_consider_rain_' ~ cycle, 'on'), states('sensor.irrigae_irrigation_correction')|float, 100,100) }}
+      cycleName:  >
+        {{ states('input_text.irrigae_name_' ~ cycle) }}
+      noticeSecs: >
+        {{ states('input_number.irrigae_seconds_notice') | int}}
+      zones: >
+        {% set var = namespace(zones=[])%}
+        {% for idx in range(0,states('input_number.irrigae_number_zones') | int) %}
+        {% if is_state('input_boolean.irrigae_consider_zone_correctors_'+cycle,'on') %} 
+          {% set percZone = state_attr('sensor.irrigae_irrigation_correction','zone'~(idx+1)) | float%} 
+        {% else %}
+          {% set percZone = 100.0 %} 
+        {% endif %}
+        {% set min = (states('input_number.irrigae_duration_'+cycle+'_zone'~(idx+1)) | int * percentage/100 * percZone /100) | int %}
+        {% set var.zones = var.zones + [min]%}
+        {% endfor %}
+        {{var.zones}}
+      report: >
+        {% if (not is_state('input_boolean.irrigae_irrigation_enabled', 'on')) %}
+          'Enable the irrigation system to perform the cycle {{cycleName}}'
+        {% else %} 
+          {% if (is_state('timer.irrigae_freeze_irrigation', 'active')) %}
+            'Irrigation cycle {{cycleName}} canceled due to manual suspension'
+          {% else %} 
+            {% if percentage <= 0 %}
+               'Irrigation cycle {{cycleName}} canceled due to rain' 
+            {% else %}
+               {% if percentage < 100 %}
+                  {% set var = 'Start of the irrigation cycle '+cycleName+' reduced to '~percentage~' percent due to rain' %}
+               {% else %}
+                  {% set var = 'Start of the irrigation cycle '+cycleName %}
+               {% endif %}
+               {% if  noticeSecs> 1 %}
+                '{{var}} in {{noticeSecs}} seconds'
+               {% else %}
+                '{{var}}'
+               {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      trace: >
+        {% set var = namespace(trace="") %}
+        {% if percentage <= 0 %}
+          {% set var.trace = 'Canceled cycle ' + cycleName + ' due to rain'%}
+        {% else %}
+          {% set var.trace = 'Start cycle ' + cycleName %}
+          {% if percentage != 100%}
+            {% set var.trace = var.trace + '['~percentage~'%]'%}
+          {%endif%}
+          {% set var.trace = var.trace +' mins('%}
+          {% for zone in zones %}
+              {% set var.trace = var.trace + iif(loop.index==1,'',',')%}
+              {% set var.trace = var.trace ~zone %}
+          {% endfor %}
+          {% set var.trace = var.trace + ')'%}
+        {%endif%}
+        {{var.trace}}
+  
+    sequence:
+    
+    - condition: template
+      value_template: >
+        {{ is_state('binary_sensor.irrigae_today_' ~ cycle, 'on')}}
+        
+    - if:
+        - condition: template 
+          value_template: "{{not is_state('input_boolean.irrigae_irrigation_enabled', 'on')}}"
+      then:
+        - service: script.irrigae_notify
+          data:
+            type: REPORT
+            message: 'The cycle {{cycleName}} has not started because the Irrigation System is disabled'
+    
+    - condition: template
+      value_template: "{{is_state('input_boolean.irrigae_irrigation_enabled', 'on')}}"
+    
+    - service: script.irrigae_notify
+      data:
+        type: REPORT
+        message: '{{report}}'           
+    
+    - service: script.irrigae_log_activity
+      data:
+        text: '{{trace}}'
+              
+    - condition: template
+      value_template: "{{percentage > 0}}"
+      
+    - service: input_text.set_value
+      data:
+        value: '{{ cycle }}'
+      target:
+        entity_id: input_text.irrigae_cycle_in_progress
+        
+
+    - delay:
+        seconds: '{{noticeSecs}}'
+
+    #=== Run all the zones in turns
+    - repeat:
+        until:
+          - condition: template
+            value_template: >
+              {{ states('input_number.irrigae_number_zones')|int == repeat.index }}
+        sequence:
+          - condition: template
+            value_template: >
+              {{ not is_state('input_text.irrigae_cycle_in_progress', '')}}
+          - service: script.irrigae_start_irrigation_zone
+            data:
+              zone: 'zone{{repeat.index}}'
+              minutes: '{{zones[repeat.index-1]}}'
+
+            #=== Pause between zones (to allow for stabilization of the HA state machine and resetting of the physical valves)
+          - delay:
+              seconds: 3
+
+    - service: script.turn_on
+      target:
+        entity_id: script.irrigae_stop_irrigation
+    
+    - service: script.irrigae_notify
+      data:
+        type: FEEDBACK
+        message: 'Irrigation cycle {{cycleName}} completed'
+        
+  irrigae_stop_irrigation:
+    alias: Irrigae - Stop irrigation
+    mode: single
+    icon: mdi:stop
+    sequence:
+    - service: input_text.set_value
+      data:
+        value: ''
+      target:
+        entity_id: input_text.irrigae_zone_in_progress
+    - service: input_text.set_value
+      data:
+        value: ''
+      target:
+        entity_id: input_text.irrigae_cycle_in_progress
+    - service: timer.cancel
+      target:
+        entity_id: timer.irrigae_delay_irrigation
+
+  irrigae_start_irrigation_zone:
+    alias: Irrigae - Start irrigation zone
+    mode: single
+    icon: hass:sprinkler-variant
+    fields:
+      zone:
+        required: true
+        description: Zone name
+      minutes:
+        required: true
+        description: Irrigation time (minutes)
+    variables:
+      timer_id: 'timer.irrigae_timer_{{ zone }}'
+      sprinkler_id: '{{states(''input_text.irrigae_valve_entity_'' + zone)}}'
+    sequence:
+      - condition: template
+        value_template: '{{ not is_state(''timer.irrigae_freeze_irrigation'', ''active'') and
+          minutes > 0 and is_state(''input_boolean.irrigae_irrigation_enabled'', ''on'') and sprinkler_id != ''Disabled''}} '
+      - service: input_text.set_value
+        data:
+          value: '{{ zone }}'
+        target:
+          entity_id: input_text.irrigae_zone_in_progress
+      - if:
+        - condition: state
+          entity_id: timer.irrigae_delay_irrigation
+          state: paused
+        then:
+        - service: timer.start
+          target:
+            entity_id: timer.irrigae_delay_irrigation
+      - alias: Wait until the delay is terminated
+        wait_template: '{{ is_state(''timer.irrigae_delay_irrigation'', ''idle'') }}'
+      - service: switch.turn_on
+        target:
+          entity_id: '{{ sprinkler_id }}'
+      - service: input_text.set_value
+        data:
+          value: '{{ sprinkler_id }}'
+        target:
+          entity_id: input_text.irrigae_active_sprinkler
+      - service: timer.start
+        data:
+          entity_id: '{{ timer_id }}'
+          duration: '00:{{minutes | int}}:00'
+
+      - repeat:
+          while:
+          - condition: template
+            value_template: '{{ not is_state( timer_id, ''idle'') and not is_state(''timer.irrigae_freeze_irrigation'',
+              ''active'') and not is_state(''input_text.irrigae_zone_in_progress'', '''') }}'
+          sequence:
+          - if:
+            - condition: template
+              value_template: '{{ is_state(''timer.irrigae_delay_irrigation'', ''paused'') }}'
+            then:
+            - service: timer.start
+              target:
+                entity_id: timer.irrigae_delay_irrigation
+          - if:
+            - condition: template
+              value_template: '{{ is_state(''timer.irrigae_delay_irrigation'', ''active'') and
+                is_state(sprinkler_id, ''on'') }}'
+            then:
+            - service: switch.turn_off
+              target:
+                entity_id: '{{ sprinkler_id }}'
+            - service: timer.pause
+              target:
+                entity_id: '{{ timer_id }}'
+          - if:
+            - condition: template
+              value_template: '{{ is_state(''timer.irrigae_delay_irrigation'', ''idle'') and is_state(sprinkler_id,
+                ''off'') }}'
+            then:
+            - service: switch.turn_on
+              target:
+                entity_id: '{{ sprinkler_id }}'
+            - service: timer.start
+              target:
+                entity_id: '{{ timer_id }}'
+          - delay: 00:00:01
+      - service: switch.turn_off
+        target:
+          entity_id: '{{ sprinkler_id }}'
+      - service: timer.cancel
+        target:
+          entity_id: '{{ timer_id }}'
+      - service: input_text.set_value
+        data:
+          value: ''
+        target:
+          entity_id: input_text.irrigae_zone_in_progress
+      - service: input_text.set_value
+        data:
+          value: ''
+        target:
+          entity_id: input_text.irrigae_active_sprinkler
+          
+  irrigae_start_freeze_irrigation_timer:
+    mode: single
+    icon: mdi:gesture-tap
+    alias: Irrigae - Start or stop the irrigation freeze timer
+    fields:
+      duration:
+        description: Freeze duration (or 00:00:00 to stop timer)
+        required: true
+    sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ duration != "00:00:00" }}'
+          sequence:
+          - service: timer.start
+            data:
+              entity_id: timer.irrigae_freeze_irrigation
+              duration: '{{duration}}'
+          - service: script.irrigae_log_activity
+            data:
+              text: '{{"Suspend irrigation for "~duration}}'
+        - conditions:
+          - condition: template
+            value_template: '{{ duration == "00:00:00" }}'
+          sequence:
+          - service: timer.cancel
+            data:
+              entity_id: timer.irrigae_freeze_irrigation
+          - service: script.irrigae_log_activity
+            data:
+              text:  Cancel irrigation suspension
+
+  irrigae_start_delay_irrigation_timer:
+    mode: single
+    icon: mdi:gesture-tap
+    alias: Irrigae - Start or stop the irrigation delay timer
+    fields:
+      duration:
+        description: Delay duration (or 00:00:00 to stop timer)
+        required: true
+    sequence:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: '{{ duration != "00:00:00" }}'
+        sequence:
+        - service: timer.start
+          data:
+            entity_id: timer.irrigae_delay_irrigation
+            duration: '{{duration}}'
+        - service: timer.pause
+          data:
+            entity_id: timer.irrigae_delay_irrigation
+        - service: script.irrigae_log_activity
+          data:
+            text: '{{"Delay irrigation of "~duration}}'
+      - conditions:
+        - condition: template
+          value_template: '{{ duration == "00:00:00" }}'
+        sequence:
+          - service: timer.cancel
+            data:
+              entity_id: timer.irrigae_delay_irrigation
+          - service: script.irrigae_log_activity
+            data:
+              text: Cancel irrigation delay
+
+  irrigae_start_irrigation_zone_popup:
+    mode: single
+    icon: mdi:gesture-tap
+    alias: Irrigae - Start irrigation zone from browsermod popup
+    fields:
+      zone:
+        required: true
+        description: Zone name
+      minutes:
+        required: true
+        description: Irrigation time (minutes)
+    sequence:
+      - service: browser_mod.close_popup
+      - service: script.irrigae_start_irrigation_zone
+        data:
+          zone: '{{zone}}'
+          minutes: '{{minutes}}'
+   
+  irrigae_start_freeze_irrigation_timer_popup:
+    mode: single
+    icon: mdi:gesture-tap
+    alias: Irrigae - Start or stop the irrigation freeze timer from browsermod popup
+    fields:
+      duration:
+        description: Freeze duration (or 00:00:00 to stop timer)
+        required: true
+    sequence:
+      - service: browser_mod.close_popup
+      - service: script.irrigae_start_freeze_irrigation_timer
+        data:
+          duration: '{{duration}}'
+            
+  irrigae_start_delay_irrigation_timer_popup:
+    mode: single
+    icon: mdi:gesture-tap
+    alias: Irrigae - Start or stop the irrigation delay timer from browsermod popup
+    fields:
+      duration:
+        description: Delay duration (or 00:00:00 to stop timer)
+        required: true
+    sequence:
+      - service: browser_mod.close_popup
+      - service: script.irrigae_start_delay_irrigation_timer
+        data:
+          duration: '{{duration}}'
+          
+  irrigae_notify:
+    alias: Irrigae - Notify irrigation
+    description: Notify an irrigation system message
+    fields:
+      message:
+        required: true
+        description: Message to notify
+        selector:
+          text:
+            multiline: true
+      type:
+        required: true
+        description: Type of notification
+        selector:
+          select:
+            mode: dropdown
+            options:
+            - value: SECURITY
+              label: SECURITY - Security warning. Not silenceable, voice and text.
+            - value: FEEDBACK
+              label: FEEDBACK - Feedback when HA did something. Silenceable, only voice.
+            - value: REPORT
+              label: REPORT - Report of something you need to be informed about. Silenceable,
+                voice or text
+    variables:
+      customScript: >
+        {{ iif (has_value('input_text.irrigae_custom_notification_script') and not is_state('input_text.irrigae_custom_notification_script', ''),states('input_text.irrigae_custom_notification_script'), '', '')}}
+
+      notifyService: "{{states('input_text.irrigae_notification_service')}}"
+      feedback: >
+        {{ is_state('input_select.irrigae_enabled_notifications', 'Feedback') or is_state('input_select.irrigae_enabled_notifications',
+        'All') }}
+      report: >
+        {{ is_state('input_select.irrigae_enabled_notifications', 'Report') or is_state('input_select.irrigae_enabled_notifications',
+        'All') }}
+    sequence:
+    
+    - if:
+      - condition: template
+        value_template: '{{has_value(customScript)}}'
+      then:
+        - service: '{{customScript}}'
+          data:
+            type: '{{type}}'
+            message: '{{message}}'
+            title: '{{type + " IrrigAE"}}' 
+  
+    - if:
+      - condition: template
+        value_template: > 
+          {{(type == 'SECURITY') or (type == 'FEEDBACK' and feedback) or (type == 'REPORT' and (feedback or report)) }}
+      then:  
+        - if:
+            - condition: template
+              value_template: >
+                {{ notifyService != ''}}
+          then:
+            - service: '{{notifyService}}'
+              data:
+                message: '{{message}}'
+                title: '{{type + " IrrigAE"}}' 
+    mode: queued
+    icon: mdi:bullhorn-variant-outline
+    max: 5
+
+  irrigae_log_activity:
+    alias: Irrigae - Log activity
+    description: Log an irrigation activity
+    fields:
+      text:
+        required: true
+        description: Text to log
+    sequence:
+      - service: input_text.set_value
+        data:
+          value: '{{now().strftime("%d/%m|%H:%M") + " " + text}}'
+        target:
+          entity_id: input_text.irrigae_last_activity 
+    mode: queued
+    icon: mdi:file
+    max: 5
+  

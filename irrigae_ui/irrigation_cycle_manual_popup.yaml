@@ -1,0 +1,18 @@
+# lovelace_gen
+
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title: "Start manual cycle"
+    browser_id: THIS
+    right_button: 'Avvia irrigazione'
+    right_button_action:
+      service: script.irrigae_start_manual_irrigation
+      data: {}
+    content:
+      !include
+      - irrigation_cycle_duration_config.yaml
+      - cycle: manual
+
+

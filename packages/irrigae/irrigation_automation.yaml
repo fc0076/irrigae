@@ -1,0 +1,48 @@
+automation:
+  - id: '2024063000001'
+    alias: Irrigae - Start cycle1
+    trigger:
+      - platform: time
+        at: input_datetime.irrigae_start_time_cycle1
+    action:
+      - service: script.irrigae_start_irrigation_cycle
+        data:
+          cycle: cycle1
+    mode: single
+  - id: '2024063000002'
+    alias: Irrigae - Start cycle2
+    trigger:
+      - platform: time
+        at: input_datetime.irrigae_start_time_cycle2
+    action:
+      - service: script.irrigae_start_irrigation_cycle
+        data:
+          cycle: cycle2
+    mode: single
+  - id: '2024063000003'
+    alias: Irrigae - Start cycle3
+    trigger:
+      - platform: time
+        at: input_datetime.irrigae_start_time_cycle3
+    action:
+      - service: script.irrigae_start_irrigation_cycle
+        data:
+          cycle: cycle3
+    mode: single
+    
+  - id: '2024063000004'
+    alias: Irrigae - Daily routine
+    trigger:
+      - platform: time
+        at: '00:00:00'
+    action:
+      - service: script.irrigae_increment_irrigation_day
+        data:
+          cycle: cycle1
+      - service: script.irrigae_increment_irrigation_day
+        data:
+          cycle: cycle2
+      - service: script.irrigae_increment_irrigation_day
+        data:
+          cycle: cycle3
+    mode: single

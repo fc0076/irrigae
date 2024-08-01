@@ -1,0 +1,20 @@
+
+#********************************************************************************
+# AEIrrigation
+#********************************************************************************
+# Module..: Main dashboard
+# Author..: Andrea Eccel
+# Date....: June 2024
+#********************************************************************************
+
+button_card_templates: !include bc_templates.yaml
+
+kiosk_mode:
+  hide_header: false
+  hide_sidebar: false
+
+views:
+  !include views.yaml
+
+
+  

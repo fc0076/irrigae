@@ -1,0 +1,456 @@
+# !toggle word-wrap
+
+# --------------------------------------------------------------------
+#                      BUTTON CARD PRESET TEMPLATES 
+# --------------------------------------------------------------------
+
+
+# -------------------------------------------------------------------------------
+# SEPARATOR
+# -------------------------------------------------------------------------------
+
+separator:
+  styles:
+    card:
+      - box-shadow: none
+  color_type: blank-card
+  
+  
+# -------------------------------------------------------------------------------
+# BASE TEMPLATE
+# -------------------------------------------------------------------------------
+base_template:
+  variables:
+  
+    # State
+    attribute: ""
+    formatter: ""
+    
+    # Color
+    color: ""
+   
+    borderColor: ""
+    unavailableColor: gray
+    unavailableBackColor: "rgba(115,115,115,0.6)"
+    
+    # Icon
+    icon: ""
+    iconColor: "var(--state-icon-color)"
+    iconBackColor: "transparent"
+    unavailableIcon: "mdi:access-point-network-off"
+    unavailableIconColor: ""
+    #states: []
+    #ranges: []
+    
+    # On/Off state
+    onState: ""
+    offState: ""
+    label: ""
+    onLabel: ""
+    onColor: "var(--primary-color)"
+    onBackColor: "var(--light-primary-color)"
+    onIconColor: "var(--state-icon-active-color)"
+    onBorderColor: ""
+    onIcon: ""
+    animationState: ""
+    animation: ""
+    unavailableAnimation: blink 1s ease infinite
+    animationBackColor: ""
+    powerEntity: ""
+    
+  state_display: >
+    [[[ if (entity === undefined)
+          return this.state;
+          
+        var value;
+        if (variables.attribute !== null && variables.attribute!== "")
+          value = entity.attributes[variables.attribute];
+        else
+          value = entity.state;
+        
+        if (variables['states'] !== undefined) {
+          if (variables.states[value]!== undefined && variables.states[value]['show'] !== undefined)
+             return variables.states[value]['show']
+        }
+        
+        if (variables['ranges'] !== undefined) {
+              for (var key of Object.keys(variables['ranges']).reverse()) {
+                 if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['show']!== undefined)
+                    return variables['ranges'][key]['show'];
+              }
+        }
+     
+         var units = !this._config.units ? entity.attributes.unit_of_measurement : this._config.units;
+        if (units === undefined)
+          units="";
+        if (variables.formatter === "secToHHMM") {
+            var h = Math.floor(value / 3600);
+            var m = Math.floor((value % 3600) / 60);
+            value =  h + " h "+ m + " m";
+            units="";
+        } else if (variables.formatter === "YesNo") {
+           value =  value==='off'?'No':'Yes';
+         } else if (variables.formatter !== null && variables.formatter!== "")
+            value = value + variables.formatter;
+
+       return value + units;
+
+     ]]]
+     
+  label: >
+    [[[ 
+        if (entity === undefined)
+           return variables.label;
+        var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+        if (variables['states'] !== undefined) {
+            if (variables.states[value]!== undefined && variables.states[value]['label'] !== undefined)
+                return variables.states[value]['label'];
+        }
+        
+        if (variables['ranges'] !== undefined) {
+              for (var key of Object.keys(variables['ranges']).reverse()) {
+                 if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['label']!== undefined)
+                    return variables['ranges'][key]['label'];
+              }
+         }
+        
+        var isOn = variables.offState === ''? value === variables.onState: value !== variables.offState;
+        var label =  variables.label === ''? entity.attributes.friendly_name: variables.label;
+        var onLabel =  variables.onLabel === ''? entity.attributes.friendly_name: variables.onLabel;
+        return isOn? onLabel: label; 
+    ]]]
+  
+  icon: >
+    [[[ 
+        if (entity === undefined) 
+              return variables.icon; 
+        if (entity.state === 'unavailable')
+           return variables.unavailableIcon;
+        var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+        if (variables['states'] !== undefined) {
+            if (variables.states[value]!== undefined && variables.states[value]['icon'] !== undefined)
+                return variables.states[value]['icon'];
+        }
+        if (variables['ranges'] !== undefined) {
+              for (var key of Object.keys(variables['ranges']).reverse()) {
+                 if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['icon']!== undefined)
+                    return  variables['ranges'][key]['icon'];
+             }
+        }
+        var icon = variables.icon === ''? entity.attributes.icon : variables.icon;
+        var onIcon =  variables.onIcon === ''? icon: variables.onIcon;
+        if (variables.onState==='' && variables.offState==='')
+          return icon;
+        var isOn = variables.offState === ''? value === variables.onState: value !== variables.offState;
+        return isOn? onIcon: icon; 
+    ]]]
+    
+  styles:
+    card:
+      - text-transform: capitalize
+      - animation: >
+          [[[ if (entity === undefined) 
+                 return ''; 
+              if (entity.state === 'unavailable') {
+                 if (!variables.powerEntity || states[variables.powerEntity].state === 'on')
+                    return variables.unavailableAnimation;
+              }
+              var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+              if (variables['states'] !== undefined) {
+                  if (variables.states[value]!== undefined && variables.states[value]['animation'] !== undefined)
+                      return variables.states[value]['animation'];
+              }
+               if (variables['ranges'] !== undefined) {
+                  for (var key of Object.keys(variables['ranges']).reverse()) {
+                     if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['animation']!== undefined)
+                        return variables['ranges'][key]['animation'];
+                  }
+              }
+              
+              var isAni = value === variables.animationState;
+              return (isAni)? variables.animation: ''; 
+          ]]]
+
+      - color: >
+          [[[ if (entity === undefined) 
+                  return variables.color; 
+              if (entity.state === 'unavailable')
+                  return variables.unavailableColor;
+              var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+              if (variables['states'] !== undefined) {
+                  if (variables.states[value]!== undefined && variables.states[value]['color'] !== undefined)
+                      return variables.states[value]['color'];
+              }
+              if (variables['ranges'] !== undefined) {
+                  for (var key of Object.keys(variables['ranges']).reverse()) {
+                     if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['color']!== undefined)
+                        return variables['ranges'][key]['color'];
+                  }
+              }
+              var color = variables.color;
+              var onColor =  variables.onColor === ''? color: variables.onColor;
+              if (variables.onState==='' && variables.offState==='')
+                  return color;
+              var isOn = variables.offState === ''? value === variables.onState: value !== variables.offState;
+              return isOn? onColor: color;
+          ]]]
+          
+      - border-color: >
+          [[[ if (entity === undefined) 
+                  return variables.borderColor; 
+              if (entity.state === 'unavailable')
+                  return variables.unavailableColor;
+              var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+              if (variables['states'] !== undefined) {
+                  if (variables.states[value]!== undefined && variables.states[value]['borderColor'] !== undefined)
+                      return variables.states[value]['borderColor'];
+              }
+              if (variables['ranges'] !== undefined) {
+                  for (var key of Object.keys(variables['ranges']).reverse()) {
+                     if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['borderColor']!== undefined)
+                        return  variables['ranges'][key]['borderColor'];
+                  }
+              }
+              var color = variables.borderColor === ''? variables.color: variables.borderColor;
+              var onColor = variables.onBorderColor === ''? variables.onColor: variables.onBorderColor;
+              if (variables.onState==='' && variables.offState==='')
+                  return color;
+              var isOn = variables.offState === ''? value === variables.onState: value !== variables.offState;
+              return isOn? onColor: color;
+          ]]]
+          
+      - background-color: >
+          [[[ 
+              if (entity === undefined) 
+                  return variables.backgroundColor; 
+              if (entity.state === 'unavailable')
+                  return variables.unavailableBackColor === ''? variables.unavailableColor: variables.unavailableBackColor;
+              var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+              if (variables['states'] !== undefined) {
+                  if (variables.states[value]!== undefined && variables.states[value]['backColor'] !== undefined)
+                      return variables.states[value]['backColor'];
+              }
+              if (variables['ranges'] !== undefined) {
+                  for (var key of Object.keys(variables['ranges']).reverse()) {
+                     if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['backColor']!== undefined)
+                        return  variables['ranges'][key]['backColor'];
+                  }
+              }
+              
+              var color = variables.backColor === ''? variables.color: variables.backColor;
+              var onColor = variables.onBackColor === ''? variables.onColor: variables.onBackColor;
+              if (variables.onState==='' && variables.offState==='')
+                  return color;
+              var isOn = variables.offState === ''? value === variables.onState: value !== variables.offState;
+              return (isOn)? onColor : color;
+          ]]]
+    icon:
+      - color: >
+          [[[ if (entity === undefined) 
+                  return variables.iconColor; 
+              if (entity.state === 'unavailable')
+                return variables.unavailableIconColor === ''? variables.unavailableColor: variables.unavailableIconColor;
+              var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+              if (variables['states'] !== undefined) {
+                  if (variables.states[value]!== undefined && variables.states[value]['iconColor'] !== undefined)
+                      return variables.states[value]['iconColor'];
+              }
+                
+             if (variables['ranges'] !== undefined) {
+                  for (var key of Object.keys(variables['ranges']).reverse()) {
+                     if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['iconColor']!== undefined)
+                        return  variables['ranges'][key]['iconColor'];
+                  }
+              }
+              var color = variables.iconColor === ''? variables.color: variables.iconColor;
+              var onColor = variables.onIconColor === ''? variables.onColor: variables.onIconColor;
+              if (variables.onState==='' && variables.offState==='')
+                  return color;
+              var isOn = variables.offState === ''? value === variables.onState: value !== variables.offState;
+              return isOn? onColor: color 
+          ]]]
+      - background-color: >
+          [[[ 
+              if (entity === undefined) 
+                  return variables.iconBackColor; 
+              if (entity.state === 'unavailable')
+                  return variables.iconBackColor;
+              var value = variables.attribute===''? entity.state: entity.attributes[variables.attribute];
+              if (variables['states'] !== undefined) {
+                  if (variables.states[value]!== undefined && variables.states[value]['iconBackColor'] !== undefined)
+                      return variables.states[value]['iconBackColor'];
+              }
+              if (variables['ranges'] !== undefined) {
+                  for (var key of Object.keys(variables['ranges']).reverse()) {
+                     if (parseFloat(value) >= parseFloat(key) && variables['ranges'][key]['iconBackColor']!== undefined)
+                        return  variables['ranges'][key]['iconBackColor'];
+                  }
+              }
+              return variables.iconBackColor;
+          ]]]
+
+##################################################################################
+#                                                                                #
+#                                L A B E L S                                     #
+#                                                                                #
+##################################################################################
+
+# -------------------------------------------------------------------------------
+# LABEL
+# -------------------------------------------------------------------------------
+
+label:
+  template:
+    - base_template
+  show_state: false
+  show_name: false
+  show_icon: false
+  show_label: true
+  color_type: icon
+  styles:
+    card:
+      - font-size: 110%
+      - font-weight: 200
+      - padding: 0px
+      - box-shadow: 0px 0px 0px 0px
+      - border: 0px
+      - borderRadius: 0px
+      - background-color: transparent
+    label:
+      - justify-self: start
+      - align-self: center
+  tap_action:
+    action: none
+  hold_action:
+    action: none
+
+
+##################################################################################
+#                                                                                #
+#                              B U T T O N S                                     #
+#                                                                                #
+##################################################################################
+
+# -------------------------------------------------------------------------------
+# PUSH BUTTON
+# -------------------------------------------------------------------------------
+push_button:
+  template:
+    - base_template
+  show_icon: true
+  show_name: false
+  show_label: true
+  show_state: false
+  color_type: card
+  variables:
+    corners: "abcd"
+  styles:
+    grid:
+      - grid-template-areas: '"i" "l"'
+    card:
+      - borderRadius: >
+          [[[  var radius= "";
+              var size= "10px ";
+              radius += variables.corners.includes("a")? size: "0px ";
+              radius += variables.corners.includes("b")? size: "0px ";
+              radius += variables.corners.includes("c")? size: "0px ";
+              radius += variables.corners.includes("d")? size: "0px ";
+           return radius;
+          ]]]
+      - font-size: 100%
+      - padding: 5px
+    label:
+      - align-self: middle
+      - justify-self: center
+
+
+# -------------------------------------------------------------------------------
+# ON OFF BUTTON
+# -------------------------------------------------------------------------------
+on_off_button:
+  template:
+    - push_button
+  variables:
+    onState: 'on'
+
+# -------------------------------------------------------------------------------
+# STATE BUTTON
+# -------------------------------------------------------------------------------
+state_button:
+  template:
+    - on_off_button
+  size: 80%
+  show_state: true
+  styles:
+    grid:
+      - grid-template-areas: '"l l" "i s"'
+      - grid-template-columns: 30% auto
+      - grid-template-rows: min-content auto
+    card:
+      - border-radius: 10px
+      - padding: 5px
+    img_cell:
+      - justify-self: start
+      - align-self: middle
+    state:
+      - padding-left: 5px
+      - font-size: 90%
+      - justify-self: start
+      - align-self: middle
+    label:
+      - padding-left: 5px
+      - justify-self: start
+      - align-self: center
+      
+      
+# -------------------------------------------------------------------------------
+# OPTION BAR BUTTON
+# -------------------------------------------------------------------------------
+optionbar_button:
+  template:
+    - push_button
+  size: 100
+  show_label: false
+  show_icon: true
+  aspect_ratio: 1/1
+  styles:
+    card:
+      - border: 1px solid
+
+# -------------------------------------------------------------------------------
+# SENSOR BUTTON
+# -------------------------------------------------------------------------------
+sensor_button:
+  template:
+    - state_button
+  styles:
+    card: 
+      - text-transform: ''
+    label:
+      - color: var(--secondary-text-color)
+  tap_action:
+    action: none
+  hold_action:
+    action: none
+
+# -------------------------------------------------------------------------------
+# TIMER BUTTON
+# -------------------------------------------------------------------------------
+timer_button:
+  template:
+    - state_button
+  variables:
+    offState: "idle"
+    onState: ""
+    onBackColor: green
+    onColor: white
+  state_display: >
+    [[[ 
+        var value = entity.state;
+        if (value==='idle') return "Off";
+        if (value==='paused') return entity.attributes.remaining;
+        return this.state;
+     ]]]
+   
+
+

@@ -1,0 +1,355 @@
+template:  
+
+  # ---------------------------------------------------------------
+  # Rain forecast 
+  # ---------------------------------------------------------------
+  - sensor:
+      - name: Irrigae rain forecasts
+        unique_id: irrigae_rain_forecasts
+        icon: mdi:weather-pouring
+        unit_of_measurement: "mm"
+        device_class: precipitation
+        state: > 
+          {% set name = 'input_text.irrigae_cutoms_rain_forecasts_sensor'%}
+          {% set sensor = ''%}
+          {% if has_value(name) and states(name) != ''%}
+            {% set sensor = states(name) %}
+          {% else%}
+            {% set sensor = 'sensor.irrigae_native_rain_forecasts' %}
+          {% endif%}
+          {%if sensor!='' and has_value(sensor) %}
+            {% set val = states(sensor) | float %}
+          {%else%}
+            {% set val = 0.0 %}
+          {%endif%}
+          {{val}}
+   
+  # ---------------------------------------------------------------
+  # Rain precipitation
+  # ---------------------------------------------------------------
+  - sensor:
+      - name: Irrigae rain precipitation
+        unique_id: irrigae_rain_precipitation
+        icon: mdi:weather-pouring
+        unit_of_measurement: "mm"
+        device_class: precipitation
+        state: > 
+          {% set name = 'input_text.irrigae_custom_rain_precipitation_sensor'%}
+          {% set sensor = ''%}
+          {% if has_value(name) and states(name) != ''%}
+             {% set sensor = states(name) %}
+          {% else %}
+             {% set sensor = 'sensor.irrigae_previous_native_rain_forecasts' %}
+          {% endif %}
+          {%if sensor!='' and has_value(sensor) %}
+            {% set val = states(sensor) | float %}
+          {%else%}
+            {% set val = 0.0 %}
+          {%endif%}
+          {{val}}
+   
+  # ---------------------------------------------------------------
+  # Irrigation percentage based on rain forecasts
+  # ---------------------------------------------------------------
+  - sensor:
+      - name: Irrigae percentage rain forecasts
+        unique_id: irrigae_percentage_rain_forecasts
+        unit_of_measurement: '%'
+        icon: mdi:water-percent
+        state: > 
+          {% set name = 'sensor.irrigae_rain_forecasts' %}
+          {%if has_value(name) %}
+            {% set val = states(name) | float %}
+          {%else%}
+            {% set val = 0.0 %}
+          {%endif%}
+          {% set min = states('input_number.irrigae_rain_forecasts_reduce_irrigation') | float %}
+          {% set max = states('input_number.irrigae_rain_forecasts_stop_irrigation') | float %}
+          {%if (val >= max) %}
+            {{0}}
+          {%elif (val < min) %}
+            {{100}}
+          {%else%}
+            {{100-((val - min)/(max-min)*100)|int}}
+          {%endif%}
+          
+  # ---------------------------------------------------------------
+  # Irrigation percentage based on rain
+  # ---------------------------------------------------------------
+  - sensor:
+      - name: Irrigae percentage rain precipitation
+        unique_id: irrigae_percentage_rain_precipitation
+        unit_of_measurement: '%'
+        icon: mdi:water-percent
+        state: > 
+          {% set sensor = 'sensor.irrigae_rain_precipitation' %}
+          {%if has_value(sensor) %}
+            {% set val = states(sensor) | float %}
+          {%else%}
+            {% set val = 0.0 %}
+          {%endif%}
+          {% set min = states('input_number.irrigae_rain_precipitation_reduce_irrigation') | float %}
+          {% set max = states('input_number.irrigae_rain_precipitation_stop_irrigation') | float %}
+          {%if (val >= max) %}
+            {{0}}
+          {%elif (val < min) %}
+            {{100}}
+          {%else%}
+            {{100-((val - min)/(max-min)*100)|int}}
+          {%endif%}
+          
+  # ---------------------------------------------------------------
+  # Irrigation total correction
+  # ---------------------------------------------------------------
+  - sensor:
+      - name: Irrigae irrigation correction 
+        unique_id: irrigae_irrigation_correction
+        unit_of_measurement: '%'
+        icon: mdi:water-percent
+        state: > 
+          {% set rain = states('sensor.irrigae_percentage_rain_precipitation') | float %}
+          {% set forecast = states('sensor.irrigae_percentage_rain_forecasts') | float %}
+          {{ ((iif(is_state('input_boolean.irrigae_enable_rain_precipitation_correction','on'), rain, 100)) *
+              (iif(is_state('input_boolean.irrigae_enable_rain_forecasts_correction','on'), forecast, 100)) / 100) | int}}
+  
+        attributes:
+          zone1: >   
+            {% set name = 'input_text.irrigae_corrector_entity_zone1' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name))|float}}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone2: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone2' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone3: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone3' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone4: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone4' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone5: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone5' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone6: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone6' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+            
+      # ---------------------------------------------------------------
+      # Next programmated irrigations
+      # ---------------------------------------------------------------        
+            
+      - name: Irrigae Next irrigation cycle1
+        unique_id: irrigae_next_irrigation_cycle1
+        icon: mdi:calendar-clock-outline
+        state: >
+           {% from 'irrigae/irrigation_macros.jinja' import next_irrigation_day %}
+           {{ next_irrigation_day('cycle1') }}
+        attributes:
+          week_day: >
+            {% from 'irrigae/irrigation_macros.jinja' import week_day %}
+            {{ week_day(as_datetime(this.state,'')) }}
+            
+      - name: Irrigae Next irrigation cycle2
+        unique_id: irrigae_next_irrigation_cycle2
+        icon: mdi:calendar-clock-outline
+        state: >
+           {% from 'irrigae/irrigation_macros.jinja' import next_irrigation_day %}
+           {{ next_irrigation_day('cycle2') }}
+        attributes:
+          week_day: >
+            {% from 'irrigae/irrigation_macros.jinja' import week_day %}
+            {{ week_day(as_datetime(this.state,'')) }}
+            
+      - name: Irrigae Next irrigation cycle3
+        unique_id: irrigae_next_irrigation_cycle3
+        icon: mdi:calendar-clock-outline
+        state: >
+           {% from 'irrigae/irrigation_macros.jinja' import next_irrigation_day %}
+           {{ next_irrigation_day('cycle3') }}
+        attributes:
+          week_day: >
+            {% from 'irrigae/irrigation_macros.jinja' import week_day %}
+            {{ week_day(as_datetime(this.state,'')) }}
+
+  
+            
+  # ---------------------------------------------------------------
+  # Irrigation active today and days attributes
+  # ---------------------------------------------------------------
+  - binary_sensor:
+    - name: Irrigae Today cycle1
+      unique_id: irrigae_today_cycle1
+      icon: mdi:watering-can
+      attributes:
+        day1: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[0] == 'Y','on' ,'off')}}"
+        day2: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[1] == 'Y','on' ,'off')}}"
+        day3: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[2] == 'Y','on' ,'off')}}"
+        day4: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[3] == 'Y','on' ,'off')}}"
+        day5: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[4] == 'Y','on' ,'off')}}"
+        day6: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[5] == 'Y','on' ,'off')}}"
+        day7: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[6] == 'Y','on' ,'off')}}"
+        day8: "{{iif(states('input_text.irrigae_days_sequence_cycle1')[7] == 'Y','on' ,'off')}}"
+        current_day: "{{(states('input_number.irrigae_current_day_cycle1') | int -1) % ((states('input_number.irrigae_number_days_cycle1')) | int) + 1}}"
+      state: >
+       {{ this.attributes['day'~(this.attributes.current_day | default(1))] | default('off') }}
+   
+    - name: Irrigae Today cycle2
+      unique_id: irrigae_today_cycle2
+      icon: mdi:watering-can
+      attributes:
+        day1: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[0] == 'Y','on' ,'off')}}"
+        day2: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[1] == 'Y','on' ,'off')}}"
+        day3: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[2] == 'Y','on' ,'off')}}"
+        day4: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[3] == 'Y','on' ,'off')}}"
+        day5: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[4] == 'Y','on' ,'off')}}"
+        day6: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[5] == 'Y','on' ,'off')}}"
+        day7: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[6] == 'Y','on' ,'off')}}"
+        day8: "{{iif(states('input_text.irrigae_days_sequence_cycle2')[7] == 'Y','on' ,'off')}}"
+        current_day: "{{(states('input_number.irrigae_current_day_cycle2') | int -1) % ((states('input_number.irrigae_number_days_cycle2')) | int) + 1}}"
+      state: >
+       {{ this.attributes['day'~(this.attributes.current_day | default(1))] | default('off') }}
+   
+    - name: Irrigae Today cycle3
+      unique_id: irrigae_today_cycle3
+      icon: mdi:watering-can
+      attributes:
+        day1: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[0] == 'Y','on' ,'off')}}"
+        day2: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[1] == 'Y','on' ,'off')}}"
+        day3: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[2] == 'Y','on' ,'off')}}"
+        day4: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[3] == 'Y','on' ,'off')}}"
+        day5: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[4] == 'Y','on' ,'off')}}"
+        day6: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[5] == 'Y','on' ,'off')}}"
+        day7: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[6] == 'Y','on' ,'off')}}"
+        day8: "{{iif(states('input_text.irrigae_days_sequence_cycle3')[7] == 'Y','on' ,'off')}}"
+        current_day: "{{(states('input_number.irrigae_current_day_cycle3') | int -1) % ((states('input_number.irrigae_number_days_cycle3')) | int) + 1}}"
+      state: >
+       {{ this.attributes['day'~(this.attributes.current_day | default(1))] | default('off') }}
+
+
+      
+  # ---------------------------------------------------------------
+  # Native Weather Forecasts Sensor
+  # ---------------------------------------------------------------
+  - trigger:
+      - platform: time_pattern
+        hours: /1
+      - platform: state
+        entity_id:
+          - input_boolean.irrigae_enable_rain_forecasts_correction
+        from: "off"
+        to: "on"
+    action:
+      - service: weather.get_forecasts
+        data:
+          type: hourly
+        target:
+          entity_id: '{{states("input_text.irrigae_native_weather_entity")}}'
+        response_variable: weather_hourly
+   
+    sensor:
+      - name: Irrigae native Rain forecasts
+        unique_id: irrigae_native_rain_forecasts
+        icon: hass:weather-rainy
+        unit_of_measurement: "mm"
+        device_class: precipitation
+        state: > 
+           {% set var = namespace(total=0) %}
+           {% set hours=iif(has_value("input_number.irrigae_native_weather_forecasts_hours"), states("input_number.irrigae_native_weather_forecasts_hours"),24) | int %}
+           {% for forecast in weather_hourly[states("input_text.irrigae_native_weather_entity")].forecast %}
+           {% if loop.index <= hours %}
+           {% set var.total = var.total + forecast.precipitation %}
+           {% endif %} 
+           {% endfor %}
+           {{ var.total | float | round(2, 'floor')}}  
+
+sql:       
+  
+  # ---------------------------------------------------------------
+  # Cycles executions log
+  # ---------------------------------------------------------------
+  - name: Irrigae log
+    unique_id: irrigae_log
+    icon: hass:weather-rainy
+    query: >
+      SELECT
+        GROUP_CONCAT(dentro.state, x'0A') AS log 
+        FROM
+          (SELECT states.state
+           FROM 
+             states
+             INNER JOIN states_meta ON (
+               states.metadata_id = states_meta.metadata_id
+             )
+           WHERE
+             states_meta.entity_id = 'input_text.irrigae_last_activity'
+           ORDER BY
+             last_updated_ts desc
+           LIMIT 
+             10) as dentro;
+    column: "log"
+    value_template: '{{value|truncate(245,true)}}'
+    
+  # ---------------------------------------------------------------
+  # Read previuos native forecaste sensor
+  # ---------------------------------------------------------------
+  - name: Irrigae previous native rain forecasts
+    unique_id: Irrigae_previous_native_rain_forecasts
+    icon: hass:weather-rainy
+    query: >
+       SELECT
+        (GROUP_CONCAT(dentro.ora, ',') || '>>' ||  GROUP_CONCAT(dentro.state, ',')) AS result
+        FROM 
+          (SELECT states.state as state, strftime('%d%H%M', DATETIME(states.last_updated_ts, 'unixepoch')) as ora
+           FROM 
+           states
+           INNER JOIN states_meta ON (
+             states.metadata_id = states_meta.metadata_id
+           )
+           WHERE
+           states_meta.entity_id = 'sensor.irrigae_rain_forecasts'
+           AND last_updated_ts >= strftime('%s', 'now', '-24 hours')
+           and state!='unknown' and state!='unavailable'
+           ORDER BY
+           last_updated_ts desc
+           LIMIT 30) as dentro
+    column: result
+    value_template: >
+        {%set parts = value.split('>>')%}
+        {%if parts|count==2%}
+          {%set oras = parts[0].split(',')%}
+          {%set values = parts[1].split(',')%}
+          {% set hours=iif(has_value("input_number.irrigae_native_past_precipitation_hours"), states("input_number.irrigae_native_past_precipitation_hours"),24) | int %}
+          {%set refOra =  (now()-timedelta(hours=hours)).strftime('%d%H%M') |int%}
+          {%set var = namespace(found=false, value=values[values|count-1]) %}
+          {%for idx in range(oras|count) if not var.found %}
+            {%-if oras[idx]|int <= refOra %}
+              {% set var.found=true%}
+              {% set var.value=values[idx]%}
+            {%-endif%}
+          {%endfor%}
+          {{var.value | float}}
+        {%else%}
+          0.0
+        {%endif%}

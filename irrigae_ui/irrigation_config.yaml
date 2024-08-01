@@ -1,0 +1,83 @@
+# lovelace_gen
+
+- type: entities
+  entities:
+    - entity: input_number.irrigae_number_cycles
+      name: Managed cycles
+      tap_action: none
+    - entity: input_number.irrigae_number_zones
+      name: Number of zones
+      tap_action: none
+    - entity: input_text.irrigae_valve_entity_zone1
+      tap_action: none
+    - entity: input_text.irrigae_valve_entity_zone2
+      tap_action: none    
+    - entity: input_text.irrigae_valve_entity_zone3
+      tap_action: none
+    - entity: input_text.irrigae_valve_entity_zone4
+      tap_action: none
+    - entity: input_text.irrigae_valve_entity_zone5
+      tap_action: none
+    - entity: input_text.irrigae_valve_entity_zone6
+      tap_action: none
+  title: Irrigation system
+    
+- type: entities
+  entities:
+    - type: section
+      label: Native system configuration
+    - entity: input_text.irrigae_native_weather_entity
+      name: Forecasts Weather entity
+      tap_action: none
+    - entity: input_number.irrigae_native_weather_forecasts_hours
+      name: Forecasts hours to consider
+      tap_action: none
+    - entity: input_number.irrigae_native_past_precipitation_hours
+      name: Past precipitations hours to consider
+      tap_action: none
+    - type: section
+      label: Alternative custom sensors
+    - entity: input_text.irrigae_custom_rain_precipitation_sensor
+      name: Rain precipitation sensor
+      tap_action: none
+    - entity: input_text.irrigae_cutoms_rain_forecasts_sensor
+      name: Rain forecasts sensor
+      tap_action: none  
+  title: Rain system
+
+- type: entities
+  entities:
+    - entity: input_text.irrigae_notification_service
+      name: Notification service
+      tap_action: none
+    - entity: input_text.irrigae_custom_notification_script
+      name: Notification custom script
+      tap_action: none
+    - entity: input_number.irrigae_seconds_notice
+      name: Send in advance
+      tap_action: none
+  title: Notifications
+
+
+- type: entities
+  entities:
+    - entity: input_text.irrigae_corrector_entity_zone1
+      name: "Zone1 corrector entity"
+      tap_action: none
+    - entity: input_text.irrigae_corrector_entity_zone2
+      name: "Zone2 corrector entity"
+      tap_action: none
+    - entity: input_text.irrigae_corrector_entity_zone3
+      name: "Zone3 corrector entity"
+      tap_action: none
+    - entity: input_text.irrigae_corrector_entity_zone4
+      name: "Zone4 corrector entity"
+      tap_action: none
+    - entity: input_text.irrigae_corrector_entity_zone5
+      name: "Zone5 corrector entity"
+      tap_action: none
+    - entity: input_text.irrigae_corrector_entity_zone6
+      name: "Zone6 corrector entity"
+      tap_action: none
+  title: Zone correctors
+  

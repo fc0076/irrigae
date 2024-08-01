@@ -1,0 +1,31 @@
+# lovelace_gen
+
+type: vertical-stack
+cards:
+  # --- PRIMARY FIELDS -------------------------------------------------
+  - type: entities
+    entities:
+      - entity: automation.irrigae_start_{{cycle}}
+        name: Enable
+      - entity: input_text.irrigae_name_{{cycle}}
+        name: Name
+      - entity: input_datetime.irrigae_start_time_{{cycle}}
+        name: Start time
+      - entity: input_boolean.irrigae_consider_rain_{{cycle}}
+        name: Apply rain reduction
+      - entity: input_boolean.irrigae_consider_zone_correctors_{{cycle}}
+        name: Apply zones correction
+        
+  # --- IRRIGATION DAYS -------------------------------------------------
+  - !include
+    - irrigation_cycle_days_config.yaml
+    - cycle: {{cycle}}
+
+  # --- IRRIGATION ZONES ------------------------------------------------
+
+  - !include
+    - irrigation_cycle_duration_config.yaml
+    - cycle: {{cycle}}
+
+
+

@@ -1,0 +1,91 @@
+# lovelace_gen
+      
+- type: entities
+  show_header_toggle: false
+  entities:
+    - entity: input_boolean.irrigae_irrigation_enabled
+      name: System enabled
+    - entity: input_select.irrigae_enabled_notifications
+      name: Send notifications
+    - entity: input_boolean.irrigae_enable_rain_precipitation_correction
+      name: Enable rain precipitation reduction
+    - entity: input_boolean.irrigae_enable_rain_forecasts_correction
+      name: Enable rain forecasts reduction
+    - entity: input_boolean.irrigae_enable_zones_correction
+      name: Enable zone reduction
+  title: Manage
+  
+- type: entities
+  entities:
+    - type: section
+      label: Last precipitation
+    - entity: sensor.irrigae_rain_precipitation
+      name: Sensor value
+    - entity: input_number.irrigae_rain_precipitation_reduce_irrigation
+      name: Reduce irrigation
+      tap_action: none
+    - entity: input_number.irrigae_rain_precipitation_stop_irrigation
+      name: Stop irrigation
+      tap_action: none
+      
+    - type: section
+      label: Next forecasts
+    - entity: sensor.irrigae_rain_forecasts
+      name: Sensor value
+    - entity: input_number.irrigae_rain_forecasts_reduce_irrigation
+      name: Reduce irrigation
+      tap_action: none
+    - entity: input_number.irrigae_rain_forecasts_stop_irrigation
+      name: Stop irrigation
+      tap_action: none
+  title: Rain
+    
+- type: entities
+  entities:
+    - entity: sensor.irrigae_percentage_rain_precipitation
+      name: Due to rain precipitation
+    - entity: sensor.irrigae_percentage_rain_forecasts
+      name: Due to rain forecasts
+    - entity: sensor.irrigae_irrigation_correction
+      name: Result
+  title: Global irrigation percentage
+      
+- type: entities
+  entities:
+    - entity: sensor.irrigae_irrigation_correction
+      type: attribute
+      attribute: zone1
+      name: Zone 1
+      suffix: '%'
+    - entity: sensor.irrigae_irrigation_correction
+      type: attribute
+      attribute: zone2
+      name: Zone 2
+      suffix: '%'
+    - entity: sensor.irrigae_irrigation_correction
+      type: attribute
+      attribute: zone3
+      name: Zone 3
+      suffix: '%'
+    - entity: sensor.irrigae_irrigation_correction
+      type: attribute
+      attribute: zone4
+      name: Zone 4
+      suffix: '%'
+    - entity: sensor.irrigae_irrigation_correction
+      type: attribute
+      attribute: zone5
+      name: Zone 5
+      suffix: '%'
+    - entity: sensor.irrigae_irrigation_correction
+      type: attribute
+      attribute: zone6
+      name: Zone 6
+      suffix: '%'
+  title: Zone irrigation percentage
+  
+- type: markdown
+  title: 'Recent activities'
+  content:  {%raw%} '{{states("sensor.irrigae_log") }}' {%endraw%}  
+  entity_id: sensor.irrigae_log
+     

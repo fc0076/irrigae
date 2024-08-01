@@ -1,0 +1,39 @@
+# lovelace_gen
+{% set duration  = [("Off",    "00:00:00"),
+                    ("1 min",  "00:01:00"),
+                    ("3 min",  "00:03:00"),
+                    ("5 min",  "00:05:00"),
+                    ("10 min", "00:10:00"),
+                    ("30 min", "00:30:00"),
+                    ("1 ora",  "01:00:00"),
+                    ("2 ore",  "02:00:00")
+                   ] %}
+
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title:  'Duration of irrigation delay'
+    browser_id: THIS
+    content:
+      type: grid
+      columns: 4
+      square: false
+      cards:
+        {% for label, dur in duration %}
+        - type: custom:button-card
+          label: '{{label}}'
+          aspect_ratio: 1/1
+          show_icon: false
+          show_name: false
+          show_label: true
+          show_state: false
+          styles:
+            card:
+              - border: 3px solid
+          tap_action:
+            action: call-service
+            service: script.irrigae_start_delay_irrigation_timer_popup
+            service_data:
+              duration: {{dur}}
+        {% endfor %}

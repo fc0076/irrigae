@@ -1,0 +1,39 @@
+# lovelace_gen
+{% set duration  = [("Off","00:00:00"),
+                    ("3 ore",  "03:00:00"),
+                    ("6 ore",  "06:00:00"),
+                    ("12 ore", "12:00:00"),
+                    ("1 giorno", "24:00:00"),
+                    ("2 giorni", "48:00:00"),
+                    ("3 giorni", "72:00:00"),
+                    ("4 giorni", "96:00:00")
+                   ] %}
+
+action: fire-dom-event
+browser_mod:
+  service: browser_mod.popup
+  data:
+    title:  'Duration of irrigation suspension'
+    browser_id: THIS
+    content:
+      type: grid
+      columns: 4
+      square: false
+      cards:
+        {% for label, dur in duration %}
+        - type: custom:button-card
+          label: '{{label}}'
+          aspect_ratio: 1/1
+          show_icon: false
+          show_name: false
+          show_label: true
+          show_state: false
+          styles:
+            card:
+              - border: 3px solid
+          tap_action:
+            action: call-service
+            service: script.irrigae_start_freeze_irrigation_timer_popup
+            service_data:
+              duration: {{dur}}
+        {% endfor %}
