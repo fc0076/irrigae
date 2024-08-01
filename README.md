@@ -1,6 +1,6 @@
-# irrigae
-
+## irrigae 
 Sistema di irrigazione avanzato per Home Assistant.
+
 Si adatta a qualsiasi configurazione home assistant, è sufficiente avere delle entità di tipo switch che controllano le valvole di irrigazione.
 Non sono richieste particolari abilità per l'installazione. 
 
