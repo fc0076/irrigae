@@ -1,6 +1,7 @@
 # lovelace_gen
       
 - type: entities
+  title: Manage
   show_header_toggle: false
   entities:
     - entity: input_boolean.irrigae_irrigation_enabled
@@ -13,10 +14,11 @@
       name: Enable rain forecasts reduction
     - entity: input_boolean.irrigae_enable_zones_correction
       name: Enable zone reduction
-  title: Manage
   
 - type: entities
+  title: Rain
   entities:
+  
     - type: section
       label: Last precipitation
     - entity: sensor.irrigae_rain_precipitation
@@ -27,7 +29,7 @@
     - entity: input_number.irrigae_rain_precipitation_stop_irrigation
       name: Stop irrigation
       tap_action: none
-      
+  
     - type: section
       label: Next forecasts
     - entity: sensor.irrigae_rain_forecasts
@@ -38,7 +40,7 @@
     - entity: input_number.irrigae_rain_forecasts_stop_irrigation
       name: Stop irrigation
       tap_action: none
-  title: Rain
+
     
 - type: entities
   entities:
@@ -51,38 +53,21 @@
   title: Global irrigation percentage
       
 - type: entities
-  entities:
-    - entity: sensor.irrigae_irrigation_correction
-      type: attribute
-      attribute: zone1
-      name: Zone 1
-      suffix: '%'
-    - entity: sensor.irrigae_irrigation_correction
-      type: attribute
-      attribute: zone2
-      name: Zone 2
-      suffix: '%'
-    - entity: sensor.irrigae_irrigation_correction
-      type: attribute
-      attribute: zone3
-      name: Zone 3
-      suffix: '%'
-    - entity: sensor.irrigae_irrigation_correction
-      type: attribute
-      attribute: zone4
-      name: Zone 4
-      suffix: '%'
-    - entity: sensor.irrigae_irrigation_correction
-      type: attribute
-      attribute: zone5
-      name: Zone 5
-      suffix: '%'
-    - entity: sensor.irrigae_irrigation_correction
-      type: attribute
-      attribute: zone6
-      name: Zone 6
-      suffix: '%'
   title: Zone irrigation percentage
+  entities:
+    {% for zone in range(1, 11) %}
+    - type: conditional
+      conditions:
+        - condition: numeric_state
+          entity: input_number.irrigae_number_zones
+          above: {{zone-1}}
+      row: 
+        entity: sensor.irrigae_irrigation_correction
+        type: attribute
+        attribute: zone{{zone}}
+        name: Zone {{zone}}
+        suffix: '%'
+    {% endfor %}
   
 - type: markdown
   title: 'Recent activities'

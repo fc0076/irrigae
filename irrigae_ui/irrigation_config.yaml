@@ -1,6 +1,7 @@
 # lovelace_gen
 
 - type: entities
+  title: Irrigation system
   entities:
     - entity: input_number.irrigae_number_cycles
       name: Managed cycles
@@ -8,21 +9,20 @@
     - entity: input_number.irrigae_number_zones
       name: Number of zones
       tap_action: none
-    - entity: input_text.irrigae_valve_entity_zone1
-      tap_action: none
-    - entity: input_text.irrigae_valve_entity_zone2
-      tap_action: none    
-    - entity: input_text.irrigae_valve_entity_zone3
-      tap_action: none
-    - entity: input_text.irrigae_valve_entity_zone4
-      tap_action: none
-    - entity: input_text.irrigae_valve_entity_zone5
-      tap_action: none
-    - entity: input_text.irrigae_valve_entity_zone6
-      tap_action: none
-  title: Irrigation system
+   {% for zone in range(1, 11) %}
+    - type: conditional
+      conditions:
+        - condition: numeric_state
+          entity: input_number.irrigae_number_zones
+          above: {{zone-1}}
+      row: 
+        entity: input_text.irrigae_valve_entity_zone{{zone}}
+        tap_action: none
+    {% endfor %}
+
     
 - type: entities
+  title: Rain system
   entities:
     - type: section
       label: Native system configuration
@@ -43,9 +43,9 @@
     - entity: input_text.irrigae_cutoms_rain_forecasts_sensor
       name: Rain forecasts sensor
       tap_action: none  
-  title: Rain system
 
 - type: entities
+  title: Notifications
   entities:
     - entity: input_text.irrigae_notification_service
       name: Notification service
@@ -56,28 +56,20 @@
     - entity: input_number.irrigae_seconds_notice
       name: Send in advance
       tap_action: none
-  title: Notifications
-
 
 - type: entities
-  entities:
-    - entity: input_text.irrigae_corrector_entity_zone1
-      name: "Zone1 corrector entity"
-      tap_action: none
-    - entity: input_text.irrigae_corrector_entity_zone2
-      name: "Zone2 corrector entity"
-      tap_action: none
-    - entity: input_text.irrigae_corrector_entity_zone3
-      name: "Zone3 corrector entity"
-      tap_action: none
-    - entity: input_text.irrigae_corrector_entity_zone4
-      name: "Zone4 corrector entity"
-      tap_action: none
-    - entity: input_text.irrigae_corrector_entity_zone5
-      name: "Zone5 corrector entity"
-      tap_action: none
-    - entity: input_text.irrigae_corrector_entity_zone6
-      name: "Zone6 corrector entity"
-      tap_action: none
   title: Zone correctors
+  entities:
+   {% for zone in range(1, 11) %}
+    - type: conditional
+      conditions:
+        - condition: numeric_state
+          entity: input_number.irrigae_number_zones
+          above: {{zone-1}}
+      row: 
+        entity: input_text.irrigae_corrector_entity_zone{{zone}}
+        name: Zone{{zone}} corrector entity
+      tap_action: none
+    {% endfor %}
+
   
