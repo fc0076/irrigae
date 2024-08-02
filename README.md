@@ -7,8 +7,8 @@ Non sono richieste particolari abilità per l'installazione.
 ![home](examples/home.png)
 
 ## Funzionalità:
- - Fino a 6 zone di irrigazione
- - Fino a 3 programmi di irrigazione automatici
+ - Fino a 10 zone di irrigazione
+ - Fino a 6 programmi di irrigazione automatici
  - Selezione giorni di irrigazione basati su sequenza fino a 8 giorni
  - Irrigazione manuale tutte le zone
  - Irrigazione manuale singola zona
@@ -82,8 +82,8 @@ E' normale, dovete ancora configurare il sistema. Per farlo selezionate la tab "
 
 ![config](examples/config.png)
 
-- Scegliete quanti cicli di irrigazione automatica volete gestire (da 1 a 3), consiglio 3. 
-- Scegliete il numero di zone che il vostro sistema di irrigazione gestisce (da 1 a 6).
+- Scegliete quanti cicli di irrigazione automatica volete gestire (da 1 a 6). 
+- Scegliete il numero di zone che il vostro sistema di irrigazione gestisce (da 1 a 10).
 - Inserite per ogni zona il nome dell'entità di tipo switch che controlla la valvola.
 - Se volete che il vostro sistema consideri le previsioni di pioggia aggiungete l'entità weather della vostra zona geografica.
 - Inserite quindi il numero di ore che volete tenere in considerazione per le previsioni di pioggia e per le piogge precedenti. 
@@ -123,7 +123,7 @@ Terminate le due configurazioni precedenti siete pronti per provare il sistema d
 
 ![home](examples/home.png)
 
-Nella prima riga vengono visualizzati i cicli automatici che avete deciso di utilizzare (da 1 a 3). Premendo il pulsante entrerete in configurazione dei cicli.
+Nel primo segmento vengono visualizzati i cicli automatici che avete deciso di utilizzare (da 1 a 10). Premendo il pulsante entrerete in configurazione dei cicli.
 Attenzione, se premendo sui pulsanti della pagina Home non si apre alcuna finestra di popup avete problemi con l'add-on browser_mod. Verificate che sia correttamente installato e attivo. Consultate la relativa documentazione per la giusta configurazione di browser_mod. Ogni altro problema con la grafica della pagina Home è dovuto esclusivamente alla scorretta installazione degli add-on elencati nei prerequisiti. 
 
 ![cycle_config](examples/cycle_config.png)
