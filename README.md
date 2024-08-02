@@ -47,9 +47,9 @@ Fate riferimento alle rispettive documentazioni per una corretta installazione. 
 
 ### Cartelle
 Scaricate e aggiungete le seguenti cartelle:
-- i files in packages/irrigae vanno scaricati e copiati in /config/packages/irrigae (create i percorsi se non esistono)
-- i files in custom_templates/irrigae vanno scaricati e copiati in /config/custom_templates/irrigae (create i percorsi se non esistono)
-- i files in irrigae_ui vanno scaricati e copiati in /config/www/irrigae_ui (create i percorsi se non esistono)
+- i files in `packages/irrigae` vanno scaricati e copiati in `/config/packages/irrigae` (create i percorsi se non esistono)
+- i files in `custom_templates/irrigae` vanno scaricati e copiati in `/config/custom_templates/irrigae` (create i percorsi se non esistono)
+- i files in `irrigae_ui vanno scaricati` e copiati in `/config/www/irrigae_ui` (create i percorsi se non esistono)
 
 ### configuration.yaml
 Nel file di configurazione principale di HomeAssistant (configuration.yaml) dovete aggiungere, se non sono già presenti, le seguenti configurazioni:
@@ -114,7 +114,7 @@ Selezionando la tab "CONTROL" potrete ora attivare e disattivare le varie funzio
   Attenzione: Irrigae aggiorna il sensore di previone pioggia ogni ora. Se volete un aggiornamento instantantaneo disabilitate e abilitate il campo "Enable rain forecast reduction". Il sensore delle precipitazioni precedenti viene aggiornato costantemente, ma il suo valore sarà attendibile solo dopo 24 ore.
   
 
-- Nelle sezioni 'Global irrigation percentage' e 'Zone irrigation percentage' vengono mostrate le reali percentuali di irrigazione che il sistema adotterà se l'irrigazione partisse in questo momento. Valori del 100% indicano che l'irrigazione sarà completa. Valori inferiori indicano che i minuti di irrigazione saranno ridotti della corripondente percentuale.
+- Nelle sezioni `Global irrigation percentage` e `Zone irrigation percentage` vengono mostrate le reali percentuali di irrigazione che il sistema adotterà se l'irrigazione partisse in questo momento. Valori del 100% indicano che l'irrigazione sarà completa. Valori inferiori indicano che i minuti di irrigazione saranno ridotti della corripondente percentuale.
 La percentuale finale di irrigazione è Result (il dato più importante), ovvero il risultato delle due riduzioni per pioggia (precipitazioni precenti * precipitaizioni previste).
 Anche le percentuali per zone sono soggette al valore di Result. Quindi se per esempio result è 30% e la percentuale zona1 è 100%, la zona1 verrà irrigata solo al 30%, cioè la moltiplicazione di result * zona1. Le correzioni per zona sono comunque dedicate ad utenti esperti, in grado cioè di creare i propri sensori per controllare il tempo di irrigazione. 
  
@@ -128,14 +128,14 @@ Attenzione, se premendo sui pulsanti della pagina Home non si apre alcuna finest
 
 ![cycle_config](examples/cycle_config.png)
 
-- Enabled: Potete Abilitare o disabilitare questo ciclo
-- Name: Potete Assegnare un nome a piacere al vostro ciclo
-- Start time: Ora di avvio del ciclo
-- Apply rain reduction: </br>
+- `Enabled:` Potete Abilitare o disabilitare questo ciclo
+- `Name:` Potete Assegnare un nome a piacere al vostro ciclo
+- `Start time:` Ora di avvio del ciclo
+- `Apply rain reduction:` </br>
   Vi consente di decidere se abilitare la riduzione per pioggia per questo ciclo. La riduzione per pioggia può essere disabilitata per esempio se il ciclo si riferisce a zone protette dagli agenti atmosferici
-- Apply zone correction: </br>
+- `Apply zone correction:` </br>
   Abilita la correzione dei tempi di irrigazione delle zone per altri sensori, come per esempio cisterne o sensori di umidità del terreno (utenti avanzati)
-- Irrigation days sequence: </br>
+- `Irrigation days sequence:` </br>
   Questa è la sequenza di giorni in cui irrigare o non irrigare. Dimenticate le classiche configurazione a giorni della settimana. La natura non comprende i nostri giorni della settimana e deve essere irrigata con periodicità costante. Questo sistema vi consente di irrigare alternando i giorni di irrigazione a vostro piacere, con una combinazione massima di 8 giorni. </br>
   Per prima cosa dovrete scegliere di quanti giorni è la vostra sequenza, quindi per ogni giorno abilitare o disabilitare l'irrigazione.
    I giorni evidenziati sono quelli in cui il sistema farà partire l'irrigazione, nei giorni non evidenziati l'irrigazione non partirà. Fate un singolo click sul giorno per attivarlo/disattivarlo. </br>
@@ -145,19 +145,17 @@ Attenzione, se premendo sui pulsanti della pagina Home non si apre alcuna finest
   Nell'esempio di figura invece è stato scelto di irrigare con la sequenza giorni Si-No-Si-Si-No. </br>
   Il giorno corrente è rappresentato dal riquadro verde. Il giorno corrente si sposta automaticamente a mezzanotte. Se volete cambiarlo manualmente fate doppio click. Si chiuderà la scheda, se la riaprite vedrete che il giorno corrente è stato aggiornato.</br>
   Importante. Quando il ciclo di irrigazione viene annullato per pioggia, il giorno corrente avanza ugualmente anche se l'irrigazione non è partita. Il giorno corrente quindi avanza indipendentemente da tutto alla mezzanotte di ogni giorno.
-- Minuti di irrigazione: </br>
+- `Minuti di irrigazione:` </br>
   Per ogni zona del vostro impianto potrete decidere i minuti di irrigazione, se lasciate il valore a zero, quella zona non verrà irrigata.
 
 La parte sucessiva della HOME consente di controllare l'irrigazione.
-- Suspend: </br>
+- `Suspend:` </br>
   Consente di sospendere l'irrigazione automatica per un po' di giorni (tutti i cicli). Se per esempio dalle vostre osservazioni notate che il terreno è già troppo bagnato potete sospendere l'irrigazione per tot giorni.
 Lo stesso effetto si ottiene ovviamente anche disabilitando i cicli di irrigazione, ma il vantaggio della sospensione sta nel fatto che non dovrete ricordarvi di riattivarli, infatti con la sospensione al termine del  periodo di stop, l'irrigazione torna a funzionare autonomamente.
-- Delay: </br>
+- `Delay:` </br>
   Questa funziona consente di ritardare l'irrigazione. Supponiamo che durante il ciclo di irrigazione dobbiate attraversare il giardino. Grazie alla funzione di delay potrete ritardare l'irrigazione per tutto il tempo che vi serve per uscire dalla zona di irrigazione. La funzione di delay funziona sia prima dell'avvio dell'irrigazione (nel qual caso il timer di ritardo parte esattamente all'ora prevista dal ciclo), sia mentre gli irrigatori stanno andando (nel qual caso l'irrigazione si blocca immediatamente e riprende dopo il tempo che gli avete indicato).
-- Manual cycle:</br>
-  Permette di avviare un ciclo manuale di tutte le zone con tempi da voi selezionati.
-- Stop irrigation:</br>
-  Arresta immediatamente qualsiasi tipo di irrigazione (manuale o automatica o zone).
+- `Manual cycle:`  Permette di avviare un ciclo manuale di tutte le zone con tempi da voi selezionati.
+- `Stop irrigation:` Arresta immediatamente qualsiasi tipo di irrigazione (manuale o automatica o zone).
 
 L'ultima parte della HOME consente di avviare gli irrigatori di zona manualmente per un tempo da voi scelto.
 
@@ -166,7 +164,7 @@ Questa sezione è riservata a utenti in grado di creare sensori e script. Nella 
 
 - Sensore precipitazioni pioggia ore precedenti.
 Il sensore nativo di Irrigae si basa esclusivamente sulle previsioni pioggia delle ore precedenti. Non è quindi un vero sensore che misura la pioggia realmente caduta, in quanto fa affidamento esclusivamente alla bontà delle previsioni meteo precedenti. Se invece avete una stazione meteo, un sensore pioggia o un qualsiasi altro sensore di umidità terreno potrete creare il vostro sensore personale che indichi quanta pioggia è realmente caduta nelle ultime ore.
-Dovrete quindi creare un sensore che ritorni i millimetri di pioggia caduta e inserire il nome nel campo 'Rain Precipitation Sensor'. Il sistema di irrigazione escluderà quindi il suo sensore nativo e userà il vostro.
+Dovrete quindi creare un sensore che ritorni i millimetri di pioggia caduta e inserire il nome nel campo `Rain Precipitation Sensor`. Il sistema di irrigazione escluderà quindi il suo sensore nativo e userà il vostro.
   Esempio di sensore pioggia:
 
   ```yaml
@@ -186,7 +184,7 @@ Dovrete quindi creare un sensore che ritorni i millimetri di pioggia caduta e in
   ```
 
 - Sensore previsioni pioggia prossime ore.
-Potrete sostituire il sensore navito di Irrigae che calcola le previsioni di pioggia nelle prossime ore. Una volta creato il vostro sensore che ritorni i millimetri di pioggia che cadranno nelle prossime ore potrete inserirne il nome nel campo 'Rain Forecasts Sensor'. Il sistema di irrigazione escluderà quindi il suo sensore nativo e userà il vostro.
+Potrete sostituire il sensore navito di Irrigae che calcola le previsioni di pioggia nelle prossime ore. Una volta creato il vostro sensore che ritorni i millimetri di pioggia che cadranno nelle prossime ore potrete inserirne il nome nel campo `Rain Forecasts Sensor`. Il sistema di irrigazione escluderà quindi il suo sensore nativo e userà il vostro.
 
   Esempio di sensore previsioni pioggia per le successive 24h aggiornato ogni ora:
 
@@ -221,7 +219,7 @@ Potrete sostituire il sensore navito di Irrigae che calcola le previsioni di pio
 Un altro modo per controllare i tempi di irrigazione è utilizzare i sensori delle zone. Questi sensori dovranno restituire una percentuale di irrigazione.
 100% significa che l'irrigazione sarà normale, valori inferiori o superiori ridurranno o aumenteranno i minuti di irrigazione. Questi sensori possono essere usati per vari scopi. Per esempio se avete dei sensori di umidità del terreno distribuiti nelle varie zone, potrete fare affidamento su questi per ridurre o aumentare il tempo di irrigazione. Potete usare lo stesso sensore su più zone. Un altro classico esempio può essere quello di ridurre l'irrigazione basandosi sulla quantità di acqua che avete nella cisterna. Se la cisterna non è piena potrete ridurre progressivamente i tempi di irrigazione per salvaguardare il consumo di acqua. Una volta creato il vostro sensore potrete inserire il nome nei campi dedicati alla correzione delle zone.
 
- Esempio di sensore per ridurre l'irrigazione 
+ Esempio di sensore per ridurre l'irrigazione in base al livello acqua della cisterna
   ```yaml
   - template:
      - sensor:
@@ -248,7 +246,7 @@ Un altro modo per controllare i tempi di irrigazione è utilizzare i sensori del
    ```
 
 - Script di notifica attività di irrigazione
-  Irrigae mette a disposizione un sistema nativo di notifica. Potete aggiungere uno script personale per notifiche più complesse e inserirlo nel campo "Notification custom script".
+  Irrigae mette a disposizione un sistema nativo di notifica. Potete aggiungere uno script personale per notifiche più complesse e inserirlo nel campo `Notification custom script`.
   Lo script che create dovrà avere come field di input i seguenti campi:
   -> title: titolo nel messaggio
   -> message: Corpo del messaggio
