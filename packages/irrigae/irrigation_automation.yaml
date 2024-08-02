@@ -4,6 +4,10 @@ automation:
     trigger:
       - platform: time
         at: input_datetime.irrigae_start_time_cycle1
+    condition:
+      - condition: numeric_state
+        entity_id: input_number.irrigae_number_cycles
+        above: 0
     action:
       - service: script.irrigae_start_irrigation_cycle
         data:
@@ -14,6 +18,10 @@ automation:
     trigger:
       - platform: time
         at: input_datetime.irrigae_start_time_cycle2
+    condition:
+      - condition: numeric_state
+        entity_id: input_number.irrigae_number_cycles
+        above: 1
     action:
       - service: script.irrigae_start_irrigation_cycle
         data:
@@ -24,10 +32,56 @@ automation:
     trigger:
       - platform: time
         at: input_datetime.irrigae_start_time_cycle3
+    condition:
+      - condition: numeric_state
+        entity_id: input_number.irrigae_number_cycles
+        above: 2
     action:
       - service: script.irrigae_start_irrigation_cycle
         data:
           cycle: cycle3
+    mode: single
+  - id: '2024080200004'
+    alias: Irrigae - Start cycle4
+    trigger:
+      - platform: time
+        at: input_datetime.irrigae_start_time_cycle4
+    condition:
+      - condition: numeric_state
+        entity_id: input_number.irrigae_number_cycles
+        above: 3
+    action:
+      - service: script.irrigae_start_irrigation_cycle
+        data:
+          cycle: cycle4
+    mode: single
+  - id: '2024080200005'
+    alias: Irrigae - Start cycle5
+    trigger:
+      - platform: time
+        at: input_datetime.irrigae_start_time_cycle5
+    condition:
+      - condition: numeric_state
+        entity_id: input_number.irrigae_number_cycles
+        above: 4
+    action:
+      - service: script.irrigae_start_irrigation_cycle
+        data:
+          cycle: cycle5
+    mode: single
+  - id: '2024080200006'
+    alias: Irrigae - Start cycle6
+    trigger:
+      - platform: time
+        at: input_datetime.irrigae_start_time_cycle6
+    condition:
+      - condition: numeric_state
+        entity_id: input_number.irrigae_number_cycles
+        above: 5
+    action:
+      - service: script.irrigae_start_irrigation_cycle
+        data:
+          cycle: cycle6
     mode: single
     
   - id: '2024063000004'
@@ -45,4 +99,13 @@ automation:
       - service: script.irrigae_increment_irrigation_day
         data:
           cycle: cycle3
+      - service: script.irrigae_increment_irrigation_day
+        data:
+          cycle: cycle4
+      - service: script.irrigae_increment_irrigation_day
+        data:
+          cycle: cycle5
+      - service: script.irrigae_increment_irrigation_day
+        data:
+          cycle: cycle6
     mode: single

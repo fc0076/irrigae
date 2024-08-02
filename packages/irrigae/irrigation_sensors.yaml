@@ -155,6 +155,34 @@ template:
             {%else%}
               {{100}}
             {%endif%}
+          zone7: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone7' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone8: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone8' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone9: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone9' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
+          zone10: >
+            {% set name = 'input_text.irrigae_corrector_entity_zone10' %}
+            {%if (is_state('input_boolean.irrigae_enable_zones_correction','on') and has_value(name) and has_value(states(name))) %}
+              {{states(states(name)) | float }}
+            {%else%}
+              {{100}}
+            {%endif%}
             
       # ---------------------------------------------------------------
       # Next programmated irrigations
@@ -192,7 +220,39 @@ template:
           week_day: >
             {% from 'irrigae/irrigation_macros.jinja' import week_day %}
             {{ week_day(as_datetime(this.state,'')) }}
-
+      
+      - name: Irrigae Next irrigation cycle4
+        unique_id: irrigae_next_irrigation_cycle4
+        icon: mdi:calendar-clock-outline
+        state: >
+           {% from 'irrigae/irrigation_macros.jinja' import next_irrigation_day %}
+           {{ next_irrigation_day('cycle4') }}
+        attributes:
+          week_day: >
+            {% from 'irrigae/irrigation_macros.jinja' import week_day %}
+            {{ week_day(as_datetime(this.state,'')) }}
+      
+      - name: Irrigae Next irrigation cycle5
+        unique_id: irrigae_next_irrigation_cycle5
+        icon: mdi:calendar-clock-outline
+        state: >
+           {% from 'irrigae/irrigation_macros.jinja' import next_irrigation_day %}
+           {{ next_irrigation_day('cycle5') }}
+        attributes:
+          week_day: >
+            {% from 'irrigae/irrigation_macros.jinja' import week_day %}
+            {{ week_day(as_datetime(this.state,'')) }}
+      
+      - name: Irrigae Next irrigation cycle6
+        unique_id: irrigae_next_irrigation_cycle6
+        icon: mdi:calendar-clock-outline
+        state: >
+           {% from 'irrigae/irrigation_macros.jinja' import next_irrigation_day %}
+           {{ next_irrigation_day('cycle6') }}
+        attributes:
+          week_day: >
+            {% from 'irrigae/irrigation_macros.jinja' import week_day %}
+            {{ week_day(as_datetime(this.state,'')) }}
   
             
   # ---------------------------------------------------------------
@@ -247,8 +307,54 @@ template:
       state: >
        {{ this.attributes['day'~(this.attributes.current_day | default(1))] | default('off') }}
 
-
-      
+    - name: Irrigae Today cycle4
+      unique_id: irrigae_today_cycle4
+      icon: mdi:watering-can
+      attributes:
+        day1: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[0] == 'Y','on' ,'off')}}"
+        day2: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[1] == 'Y','on' ,'off')}}"
+        day3: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[2] == 'Y','on' ,'off')}}"
+        day4: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[3] == 'Y','on' ,'off')}}"
+        day5: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[4] == 'Y','on' ,'off')}}"
+        day6: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[5] == 'Y','on' ,'off')}}"
+        day7: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[6] == 'Y','on' ,'off')}}"
+        day8: "{{iif(states('input_text.irrigae_days_sequence_cycle4')[7] == 'Y','on' ,'off')}}"
+        current_day: "{{(states('input_number.irrigae_current_day_cycle4') | int -1) % ((states('input_number.irrigae_number_days_cycle4')) | int) + 1}}"
+      state: >
+       {{ this.attributes['day'~(this.attributes.current_day | default(1))] | default('off') }}
+    
+    - name: Irrigae Today cycle5
+      unique_id: irrigae_today_cycle5
+      icon: mdi:watering-can
+      attributes:
+        day1: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[0] == 'Y','on' ,'off')}}"
+        day2: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[1] == 'Y','on' ,'off')}}"
+        day3: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[2] == 'Y','on' ,'off')}}"
+        day4: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[3] == 'Y','on' ,'off')}}"
+        day5: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[4] == 'Y','on' ,'off')}}"
+        day6: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[5] == 'Y','on' ,'off')}}"
+        day7: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[6] == 'Y','on' ,'off')}}"
+        day8: "{{iif(states('input_text.irrigae_days_sequence_cycle5')[7] == 'Y','on' ,'off')}}"
+        current_day: "{{(states('input_number.irrigae_current_day_cycle5') | int -1) % ((states('input_number.irrigae_number_days_cycle5')) | int) + 1}}"
+      state: >
+       {{ this.attributes['day'~(this.attributes.current_day | default(1))] | default('off') }}
+    
+    - name: Irrigae Today cycle6
+      unique_id: irrigae_today_cycle6
+      icon: mdi:watering-can
+      attributes:
+        day1: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[0] == 'Y','on' ,'off')}}"
+        day2: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[1] == 'Y','on' ,'off')}}"
+        day3: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[2] == 'Y','on' ,'off')}}"
+        day4: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[3] == 'Y','on' ,'off')}}"
+        day5: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[4] == 'Y','on' ,'off')}}"
+        day6: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[5] == 'Y','on' ,'off')}}"
+        day7: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[6] == 'Y','on' ,'off')}}"
+        day8: "{{iif(states('input_text.irrigae_days_sequence_cycle6')[7] == 'Y','on' ,'off')}}"
+        current_day: "{{(states('input_number.irrigae_current_day_cycle6') | int -1) % ((states('input_number.irrigae_number_days_cycle6')) | int) + 1}}"
+      state: >
+       {{ this.attributes['day'~(this.attributes.current_day | default(1))] | default('off') }}
+       
   # ---------------------------------------------------------------
   # Native Weather Forecasts Sensor
   # ---------------------------------------------------------------

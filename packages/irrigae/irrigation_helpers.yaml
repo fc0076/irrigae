@@ -26,6 +26,24 @@ input_number:
     max: 8
     icon: mdi:calendar-today
   
+  irrigae_number_days_cycle4:
+    name: Number days cycle 4
+    min: 1
+    max: 8
+    icon: mdi:calendar-today
+    
+  irrigae_number_days_cycle5:
+    name: Number days cycle 5
+    min: 1
+    max: 8
+    icon: mdi:calendar-today
+    
+  irrigae_number_days_cycle6:
+    name: Number days cycle 6
+    min: 1
+    max: 8
+    icon: mdi:calendar-today
+  
   #-----------------------------
   # Cycle day counters
   #-----------------------------
@@ -46,6 +64,27 @@ input_number:
     
   irrigae_current_day_cycle3:
     name: Current day cycle 3
+    min: 1
+    max: 8
+    initial: 1
+    icon: mdi:calendar-today
+    
+  irrigae_current_day_cycle4:
+    name: Current day cycle 4
+    min: 1
+    max: 8
+    initial: 1
+    icon: mdi:calendar-today
+    
+  irrigae_current_day_cycle5:
+    name: Current day cycle 5
+    min: 1
+    max: 8
+    initial: 1
+    icon: mdi:calendar-today
+    
+  irrigae_current_day_cycle6:
+    name: Current day cycle 6
     min: 1
     max: 8
     initial: 1
@@ -96,6 +135,34 @@ input_number:
     mode: box
     unit_of_measurement: min
     icon: mdi:numeric-6-box-outline
+  irrigae_duration_cycle1_zone7: 
+    name: Cycle duration 1 zone 7
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+  irrigae_duration_cycle1_zone8: 
+    name: Cycle duration 1 zone 8
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+  irrigae_duration_cycle1_zone9: 
+    name: Cycle duration 1 zone 9
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+  irrigae_duration_cycle1_zone10: 
+    name: Cycle duration 1 zone 10
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
     
   #-----------------------------
   # Cycle2 durations
@@ -142,6 +209,34 @@ input_number:
     mode: box
     unit_of_measurement: min
     icon: mdi:numeric-6-box-outline
+  irrigae_duration_cycle2_zone7: 
+    name: Cycle duration 2 zone 7
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+  irrigae_duration_cycle2_zone8: 
+    name: Cycle duration 2 zone 8
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+  irrigae_duration_cycle2_zone9: 
+    name: Cycle duration 2 zone 9
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+  irrigae_duration_cycle2_zone10: 
+    name: Cycle duration 2 zone 10
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
     
   #-----------------------------
   # Cycle3 durations
@@ -188,7 +283,256 @@ input_number:
     mode: box
     unit_of_measurement: min
     icon: mdi:numeric-6-box-outline
+  irrigae_duration_cycle3_zone7: 
+    name: Cycle duration 3 zone 7
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+  irrigae_duration_cycle3_zone8: 
+    name: Cycle duration 3 zone 8
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+  irrigae_duration_cycle3_zone9: 
+    name: Cycle duration 3 zone 9
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+  irrigae_duration_cycle3_zone10: 
+    name: Cycle duration 3 zone 10
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
     
+  #-----------------------------
+  # Cycle4 durations
+  #-----------------------------
+  irrigae_duration_cycle4_zone1: 
+    name: Cycle duration 4 zone 1
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+  irrigae_duration_cycle4_zone2: 
+    name: Cycle duration 4 zone 2
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+  irrigae_duration_cycle4_zone3: 
+    name: Cycle duration 4 zone 3
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+  irrigae_duration_cycle4_zone4: 
+    name: Cycle duration 4 zone 4
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+  irrigae_duration_cycle4_zone5: 
+    name: Cycle duration 4 zone 5
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+  irrigae_duration_cycle4_zone6: 
+    name: Cycle duration 4 zone 6
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+  irrigae_duration_cycle4_zone7: 
+    name: Cycle duration 4 zone 7
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+  irrigae_duration_cycle4_zone8: 
+    name: Cycle duration 4 zone 8
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+  irrigae_duration_cycle4_zone9: 
+    name: Cycle duration 4 zone 9
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+  irrigae_duration_cycle4_zone10: 
+    name: Cycle duration 4 zone 10
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
+    
+  #-----------------------------
+  # Cycle5 durations
+  #-----------------------------
+  irrigae_duration_cycle5_zone1: 
+    name: Cycle duration 5 zone 1
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+  irrigae_duration_cycle5_zone2: 
+    name: Cycle duration 5 zone 2
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+  irrigae_duration_cycle5_zone3: 
+    name: Cycle duration 5 zone 3
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+  irrigae_duration_cycle5_zone4: 
+    name: Cycle duration 5 zone 4
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+  irrigae_duration_cycle5_zone5: 
+    name: Cycle duration 5 zone 5
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+  irrigae_duration_cycle5_zone6: 
+    name: Cycle duration 5 zone 6
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+  irrigae_duration_cycle5_zone7: 
+    name: Cycle duration 5 zone 7
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+  irrigae_duration_cycle5_zone8: 
+    name: Cycle duration 5 zone 8
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+  irrigae_duration_cycle5_zone9: 
+    name: Cycle duration 5 zone 9
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+  irrigae_duration_cycle5_zone10: 
+    name: Cycle duration 5 zone 10
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline  
+  
+  #-----------------------------
+  # Cycle6 durations
+  #-----------------------------
+  irrigae_duration_cycle6_zone1: 
+    name: Cycle duration 6 zone 1
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+  irrigae_duration_cycle6_zone2: 
+    name: Cycle duration 6 zone 2
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+  irrigae_duration_cycle6_zone3: 
+    name: Cycle duration 6 zone 3
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+  irrigae_duration_cycle6_zone4: 
+    name: Cycle duration 6 zone 4
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+  irrigae_duration_cycle6_zone5: 
+    name: Cycle duration 6 zone 5
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+  irrigae_duration_cycle6_zone6: 
+    name: Cycle duration 6 zone 6
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+  irrigae_duration_cycle6_zone7: 
+    name: Cycle duration 6 zone 7
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+  irrigae_duration_cycle6_zone8: 
+    name: Cycle duration 6 zone 8
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+  irrigae_duration_cycle6_zone9: 
+    name: Cycle duration 6 zone 9
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+  irrigae_duration_cycle6_zone10: 
+    name: Cycle duration 6 zone 10
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline  
   #-----------------------------
   # Manual cycle durations
   #-----------------------------
@@ -234,6 +578,34 @@ input_number:
     mode: box
     unit_of_measurement: min
     icon: mdi:numeric-6-box-outline
+  irrigae_duration_manual_zone7: 
+    name: Cycle duration manual zone 7
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+  irrigae_duration_manual_zone8: 
+    name: Cycle duration manual zone 8
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+  irrigae_duration_manual_zone9: 
+    name: Cycle duration manual zone 9
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+  irrigae_duration_manual_zone10: 
+    name: Cycle duration manual zone 10
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
     
       
 #====================
@@ -275,6 +647,26 @@ timer:
     duration: "00:05:00"
     icon: mdi:sprinkler
     
+  irrigae_timer_zone7:
+    name: 'Sprinkler timer zone 7'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  irrigae_timer_zone8:
+    name: 'Sprinkler timer zone 8'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  irrigae_timer_zone9:
+    name: 'Sprinkler timer zone 9'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
+  irrigae_timer_zone10:
+    name: 'Sprinkler timer zone 10'
+    duration: "00:05:00"
+    icon: mdi:sprinkler
+    
   #-----------------------------
   # Hold irrigation
   #-----------------------------
@@ -301,13 +693,22 @@ input_text:
   #-----------------------------
  
   irrigae_name_cycle1:
-    name: "Cycle name 1"
+    name: "Cycle1"
   
   irrigae_name_cycle2:
-    name: "Cycle name 2"
+    name: "Cycle2"
   
   irrigae_name_cycle3:
-    name: "Cycle name 3" 
+    name: "Cycle3" 
+    
+  irrigae_name_cycle4:
+    name: "Cycle4"
+  
+  irrigae_name_cycle5:
+    name: "Cycle5"
+  
+  irrigae_name_cycle6:
+    name: "Cycle6" 
     
   #-----------------------------
   # Cycle days sequence
@@ -321,6 +722,15 @@ input_text:
     
   irrigae_days_sequence_cycle3:
     name: "Days sequence cycle 3"
+  
+  irrigae_days_sequence_cycle4:
+    name: "Days sequence cycle 4"
+  
+  irrigae_days_sequence_cycle5:
+    name: "Days sequence cycle 5"
+    
+  irrigae_days_sequence_cycle6:
+    name: "Days sequence cycle 6"
     
   #-----------------------------
   # Last activity
@@ -329,7 +739,6 @@ input_text:
   irrigae_last_activity:
     name: "Last activity"
  
-    
   #-----------------------------
   # Active irrigation entities
   #-----------------------------
@@ -370,7 +779,25 @@ input_datetime:
     icon: mdi:clock-start
     
   irrigae_start_time_cycle3:
-    name: 'Start time cycle2'
+    name: 'Start time cycle3'
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+    
+  irrigae_start_time_cycle4:
+    name: 'Start time cycle4'
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+    
+  irrigae_start_time_cycle5:
+    name: 'Start time cycle5'
+    has_date: false
+    has_time: true
+    icon: mdi:clock-start
+    
+  irrigae_start_time_cycle6:
+    name: 'Start time cycle6'
     has_date: false
     has_time: true
     icon: mdi:clock-start
@@ -394,6 +821,18 @@ input_boolean:
   irrigae_consider_rain_cycle3:
     name: Consider rain cycle3
     icon: mdi:weather-rainy
+  
+  irrigae_consider_rain_cycle4:
+    name: Consider rain cycle4
+    icon: mdi:weather-rainy
+
+  irrigae_consider_rain_cycle5:
+    name: Consider rain cycle5
+    icon: mdi:weather-rainy
+
+  irrigae_consider_rain_cycle6:
+    name: Consider rain cycle6
+    icon: mdi:weather-rainy
 
   #--------------------------------------
   # Consider zone correctors in cycles
@@ -409,6 +848,18 @@ input_boolean:
   irrigae_consider_zone_correctors_cycle3:
     name: Consider zone correctors in cycle3
     icon: mdi:numeric-3-box-multiple-outline
+  
+  irrigae_consider_zone_correctors_cycle4:
+    name: Consider zone correctors in cycle4
+    icon: mdi:numeric-4-box-multiple-outline
+
+  irrigae_consider_zone_correctors_cycle5:
+    name: Consider zone correctors in cycle5
+    icon: mdi:numeric-5-box-multiple-outline
+
+  irrigae_consider_zone_correctors_cycle6:
+    name: Consider zone correctors in cycle6
+    icon: mdi:numeric-6-box-multiple-outline
 
 
   #--------------------------------------

@@ -17,16 +17,16 @@ input_number:
     name: Number of programmable cycles
     icon: mdi:format-list-numbered
     min: 1
-    max: 3
+    max: 6
   
   #-----------------------------------------------------
-  # Number of irrigation zones you have (max:6)
+  # Number of irrigation zones you have (max:10)
   #-----------------------------------------------------
   irrigae_number_zones:
     name: Number of irrigation zones
     icon: mdi:format-list-numbered
     min: 1
-    max: 6
+    max: 10
     
   #-----------------------------------------------------
   # Seconds to wait before start irrigation
@@ -120,6 +120,14 @@ input_text:
     name: "Zone 5 valve switch"
   irrigae_valve_entity_zone6:
     name: "Zone 6 valve switch"  
+  irrigae_valve_entity_zone7:
+    name: "Zone 7 valve switch"
+  irrigae_valve_entity_zone8:
+    name: "Zone 8 valve switch"
+  irrigae_valve_entity_zone9:
+    name: "Zone 9 valve switch"
+  irrigae_valve_entity_zone10:
+    name: "Zone 10 valve switch"  
     
   #-------------------------------------------------------
   # Name of the entities for zones correction
@@ -136,6 +144,15 @@ input_text:
     name: "Corrector entity zone 5"
   irrigae_corrector_entity_zone6:
     name: "Corrector entity zone 6"
+  irrigae_corrector_entity_zone7:
+    name: "Corrector entity zone 7"
+  irrigae_corrector_entity_zone8:
+    name: "Corrector entity zone 8"
+  irrigae_corrector_entity_zone9:
+    name: "Corrector entity zone 9"
+  irrigae_corrector_entity_zone10:
+    name: "Corrector entity zone 10"
+    
     
   #--------------------------------------------------------------------------------------
   # Name of the custom notification script (script input field are: title, message, type)
