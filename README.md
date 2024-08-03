@@ -33,8 +33,8 @@ Irrigae è composto di due parti fondamentali: il motore di contollo dell'irriga
 
 ### Prerequisiti
 - Home assistant versione minima 2024.3
-- Database standard di Home Assistant (il funzionamento dei sensori SQL non è garantito se avete cambiato il database)
-- Integrazione standard Meteorologisk institutt (Met.no) (il funzionamento non è garantito se avete intallato altre integrazione meteo)
+- Database standard di Home Assistant SQLite (il funzionamento dei sensori SQL non è garantito se avete cambiato il database)
+- Integrazione standard Meteorologisk institutt (Met.no) (il funzionamento delle previsioni pioggia non è garantito se avete installato altre integrazioni meteo)
 
 Per l'interfaccia grafica devono essere installati e funzionanti i seguenti componenti di terze parti:
 - lovelace_gen          (https://github.com/thomasloven/hass-lovelace_gen)
@@ -282,6 +282,15 @@ notify_irrigation_activity:
   max: 5
 
 ```
+
+## Risoluzione problemi
+- La lista delle ultime attività di irrigazione mostra `Unknown`
+  Questa lista viene creata leggendo dal database gli stati precendenti dell'entità `input_text.irrigae_last_activity`. Se quindi non vi appare nulla potrebbe essere per i seguenti motivi
+      1. Avete disabilitato la storicizzazione degli stati del `recorder`
+      2. Avete cambiato il database standard di HomeAssistant usandone uno che non è compatibile con Irrigae
+- Non è possibile selezionare le entità da una lista nella pagina di configurazione
+  E' normale. Al momento della pubblicazione di questo documento, HomeAssistant non consente di inserire selector sugli helper di tipo input_text.
+
 
 ## Multilanguage
 Attualmente irrigae è disponibile solo in lingua inglese.
