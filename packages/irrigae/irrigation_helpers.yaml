@@ -52,42 +52,36 @@ input_number:
     name: Current day cycle 1
     min: 1
     max: 8
-    initial: 1
     icon: mdi:calendar-today
     
   irrigae_current_day_cycle2:
     name: Current day cycle 2
     min: 1
     max: 8
-    initial: 1
     icon: mdi:calendar-today
     
   irrigae_current_day_cycle3:
     name: Current day cycle 3
     min: 1
     max: 8
-    initial: 1
     icon: mdi:calendar-today
     
   irrigae_current_day_cycle4:
     name: Current day cycle 4
     min: 1
     max: 8
-    initial: 1
     icon: mdi:calendar-today
     
   irrigae_current_day_cycle5:
     name: Current day cycle 5
     min: 1
     max: 8
-    initial: 1
     icon: mdi:calendar-today
     
   irrigae_current_day_cycle6:
     name: Current day cycle 6
     min: 1
     max: 8
-    initial: 1
     icon: mdi:calendar-today
 
   #-----------------------------
