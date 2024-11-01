@@ -264,6 +264,15 @@ script:
     - service: timer.cancel
       target:
         entity_id: timer.irrigae_delay_irrigation
+    - repeat:
+        until:
+          - condition: template
+            value_template: >
+              {{states('input_number.irrigae_number_zones') | int == repeat.index}}
+        sequence:
+          - service: switch.turn_off
+            target:
+              entity_id: '{{states(''input_text.irrigae_valve_entity_zone'' ~ repeat.index)}}'
 
   irrigae_start_irrigation_zone:
     alias: Irrigae - Start irrigation zone
@@ -343,9 +352,13 @@ script:
             - service: switch.turn_on
               target:
                 entity_id: '{{ sprinkler_id }}'
-            - service: timer.start
-              target:
-                entity_id: '{{ timer_id }}'
+            - if:
+              - condition: template
+                value_template: '{{ is_state(timer_id, ''paused'') }}'
+              then:
+              - service: timer.start
+                target:
+                  entity_id: '{{ timer_id }}'
           - delay: 00:00:01
       - service: switch.turn_off
         target:

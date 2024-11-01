@@ -109,3 +109,18 @@ automation:
         data:
           cycle: cycle6
     mode: single
+  
+  - id: '2024110100001'
+    alias: Home Assistant start/shutdown 
+    description: "To avoid infinite irrigation, turn off the sprinklers when restarting Home Assistant with an active irrigation"
+    trigger:
+      - platform: homeassistant
+        event: start
+      - platform: homeassistant
+        event: shutdown
+    condition: []
+    action:
+      - service: script.irrigae_stop_irrigation
+        metadata: {}
+        data: {}
+    mode: single
